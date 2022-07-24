@@ -260,6 +260,10 @@ const Dashboard = () => {
                       label="Deployed Network"
                       options={[
                         { label: "Rinkeby (Testnet)", value: 4 },
+                        { label: "Goerli (Testnet)", value: 5 },
+                        { label: "Ropsten (Testnet)", value: 3 },
+                        { label: "Kovan (Testnet)", value: 42 },
+                        { label: "Mumbai (Testnet)", value: 80001 },
                         { label: "Homestead (Mainnet)", value: 1 },
                       ]}
                       color="warning"
@@ -274,7 +278,7 @@ const Dashboard = () => {
                         sx={{ color: "white" }}
                         onClick={handleLogin}
                       >
-                        Access Dashboard
+                        Access Dashboard &rarr;
                       </Button>
                     </Box>
                   </Column>
