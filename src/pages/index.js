@@ -1,16 +1,16 @@
 import snackbar from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { Box, Container, Grid } from "@mui/material";
-import { Budget } from "../components/dashboard/budget";
-import { TasksProgress } from "../components/dashboard/tasks-progress";
-import { TotalCustomers } from "../components/dashboard/total-customers";
-import { TotalProfit } from "../components/dashboard/total-profit";
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
+import { Budget } from "../components/dashboard/wallet";
+import { TokenPortion } from "../components/dashboard/portion";
+import { TotalSupply } from "../components/dashboard/totalsupply";
+import { CirculatingSupply } from "../components/dashboard/supply";
 import { Column } from "../components/dashboard/column";
 import { DashboardLayout } from "../components/dashboard-layout";
 import { useApp } from "src/hooks/useApp";
 import { useWallet } from "src/hooks/useWallet";
-import { TextField } from "@mui/material";
-import { Button } from "@mui/material";
 import { SelectField } from "src/components/select";
 
 const Dashboard = () => {
@@ -52,7 +52,7 @@ const Dashboard = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8,
+          py: 6,
         }}
       >
         <Container maxWidth={false}>
@@ -63,13 +63,13 @@ const Dashboard = () => {
                   <Budget />
                 </Grid>
                 <Grid item xl={3} lg={3} sm={6} xs={12}>
-                  <TotalCustomers />
+                  <TotalSupply />
                 </Grid>
                 <Grid item xl={3} lg={3} sm={6} xs={12}>
-                  <TasksProgress />
+                  <TokenPortion />
                 </Grid>
                 <Grid item xl={3} lg={3} sm={6} xs={12}>
-                  <TotalProfit sx={{ height: "100%" }} />
+                  <CirculatingSupply sx={{ height: "100%" }} />
                 </Grid>
                 <Grid item lg={4} md={6} xs={12}>
                   <Column sx={{ height: "100%" }} />

@@ -1,7 +1,7 @@
 import { utils, ethers } from "ethers";
 
-export const parseCurrency = (value, symbol = "USD", decimals = 2) =>
-  `$${symbol} ${new Intl.NumberFormat("en-US", {
+export const parseCurrency = (value, symbol = "", decimals = 2) =>
+  `${symbol} ${new Intl.NumberFormat("en-US", {
     notation: "compact",
     maximumFractionDigits: decimals,
   }).format(value)}`;
