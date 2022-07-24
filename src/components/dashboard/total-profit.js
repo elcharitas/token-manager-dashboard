@@ -15,7 +15,7 @@ export const TotalProfit = (props) => (
             gutterBottom
             variant="overline"
           >
-            TOTAL PROFIT
+            Circulating Supply
           </Typography>
           <Typography
             color="textPrimary"

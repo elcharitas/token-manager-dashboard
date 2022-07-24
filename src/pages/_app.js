@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { CssBaseline } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../theme";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
 const App = (props) => {
   const { Component, pageProps } = props;
@@ -11,10 +10,10 @@ const App = (props) => {
   return (
     <>
       <Head>
-        <title>Material Kit Pro</title>
+        <title>Material Kit</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={createTheme({ palette: { mode: "dark" } })}>
         <CssBaseline />
         {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>

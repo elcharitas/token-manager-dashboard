@@ -21,7 +21,7 @@ export const DashboardNavbar = (props) => {
           }}
         >
           <Tooltip title="Search">
-            <IconButton sx={{ ml: 1, fontWeight: "bold" }}>Dashboard</IconButton>
+            <IconButton sx={{ ml: 1, textTransform: "uppercase" }}>Dashboard</IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
 
