@@ -27,7 +27,7 @@ const Dashboard = () => {
 
   const [chain, setChain] = useState(4);
   const [address, setAddress] = useState(
-    typeof window !== "undefined" && localStorage.getItem("tokenAddress")
+    (typeof window !== "undefined" && localStorage.getItem("tokenAddress")) || ""
   );
 
   const [minHold, setMinHold] = useState("");
@@ -230,7 +230,7 @@ const Dashboard = () => {
               <>
                 <Grid item lg={4} md={6} xs={12} />
                 <Grid item lg={4} md={6} xs={12}>
-                  <Column title="Dashboard" sx={{ height: "100%" }}>
+                  <Column title="Manager" sx={{ height: "100%" }}>
                     <TextField
                       variant="outlined"
                       label="Contract Address"
@@ -257,7 +257,7 @@ const Dashboard = () => {
                         sx={{ color: "white" }}
                         onClick={handleLogin}
                       >
-                        Open Dashboard
+                        Access Dashboard
                       </Button>
                     </Box>
                   </Column>
