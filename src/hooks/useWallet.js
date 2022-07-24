@@ -21,6 +21,7 @@ export function useWallet() {
             balance: formatBigNumber(await eth3.getBalance(address)),
             connected: true,
           });
+          snackbar.success(`${formatAddress(address)} connected successfully`);
         }
         setAccounts(accountList);
       });

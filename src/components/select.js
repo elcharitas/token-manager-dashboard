@@ -1,6 +1,6 @@
 import { Box, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
 
-export function SelectField({ sx, label, color, options = [], ...props }) {
+export const SelectField = ({ sx, label, color, options = [], ...props }) => {
   return (
     <Box sx={sx}>
       <FormControl fullWidth>
@@ -15,4 +15,4 @@ export function SelectField({ sx, label, color, options = [], ...props }) {
       </FormControl>
     </Box>
   );
-}
+};
