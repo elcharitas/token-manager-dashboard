@@ -3,16 +3,28 @@ import { Avatar, Card, CardContent, Grid, Typography } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { useApp } from "src/hooks/useApp";
 import { useToken } from "src/hooks/useToken";
-import { formatAddress, formatBigNumber, parseCurrency } from "src/utils";
+import { formatBigNumber, parseAddress, parseCurrency } from "src/utils";
 
 export const CirculatingSupply = (props) => {
-  const { tokenAddress, chainId } = useApp();
-  const { result } = useToken({
+  const {
+    tokenAddress,
+    chainId,
+    accounts: [user],
+  } = useApp();
+  const { result: totalSupply } = useToken({
     method: "totalSupply",
     address: tokenAddress,
     chainId,
     logger: (e) => snackbar(e.message),
     skip: tokenAddress === "0x0",
+  });
+  const { result: balance } = useToken({
+    method: "balanceOf",
+    args: [user?.hash && parseAddress(user?.hash)],
+    address: tokenAddress,
+    chainId,
+    logger: (e) => snackbar(e.message),
+    skip: tokenAddress === "0x0" || !user?.hash,
   });
   const { result: symbol } = useToken({
     method: "symbol",
@@ -31,7 +43,12 @@ export const CirculatingSupply = (props) => {
               Circulating Supply:
             </Typography>
             <Typography color="textPrimary" variant="h5">
-              {result && parseCurrency(Number(formatBigNumber(result)), symbol)}
+              {parseCurrency(
+                totalSupply &&
+                  balance &&
+                  Number(formatBigNumber(totalSupply)) - Number(formatBigNumber(balance)),
+                symbol ?? ""
+              )}
             </Typography>
           </Grid>
           <Grid item>

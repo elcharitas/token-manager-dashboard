@@ -17,7 +17,14 @@ import { manager, parseAddress, parseNumber } from "src/utils";
 
 const Dashboard = () => {
   const [connectWallet] = useWallet();
-  const { setTitle, setChainId, tokenAddress, chainId, setTokenAddress } = useApp();
+  const {
+    setTitle,
+    setChainId,
+    tokenAddress,
+    chainId,
+    setTokenAddress,
+    accounts: [user],
+  } = useApp();
 
   const { mutate } = useToken({
     address: tokenAddress,
@@ -26,9 +33,7 @@ const Dashboard = () => {
   });
 
   const [chain, setChain] = useState(4);
-  const [address, setAddress] = useState(
-    (typeof window !== "undefined" && localStorage.getItem("tokenAddress")) || ""
-  );
+  const [address, setAddress] = useState("");
 
   const [minHold, setMinHold] = useState("");
   const [maxHold, setMaxHold] = useState("");
@@ -36,10 +41,6 @@ const Dashboard = () => {
   const [apvAmount, setApvAmount] = useState("");
   const [trfAddress, setTrfAddress] = useState("");
   const [apvAddress, setApvAddress] = useState("");
-
-  useEffect(() => {
-    setTitle("Login");
-  }, []);
 
   const handleLogin = async () => {
     await connectWallet()
@@ -50,6 +51,7 @@ const Dashboard = () => {
               setChainId(chain);
               setTokenAddress(address);
               localStorage.setItem("tokenAddress", address);
+              localStorage.setItem("chainId", chain);
               setTitle("Overview");
               snackbar.success("Dashboard access successful");
             })
@@ -111,6 +113,14 @@ const Dashboard = () => {
       });
   };
 
+  useEffect(() => {
+    if (!user?.hash) {
+      setTitle("Login");
+      setChain(localStorage.getItem("chainId") ?? 4);
+      setAddress(localStorage.getItem("tokenAddress") ?? "0x0");
+    }
+  }, [user?.hash]);
+
   return (
     <>
       <Box
@@ -122,7 +132,7 @@ const Dashboard = () => {
       >
         <Container maxWidth={false}>
           <Grid container spacing={3}>
-            {tokenAddress !== "0x0" ? (
+            {user?.hash && tokenAddress && tokenAddress !== "0x0" ? (
               <>
                 <Grid item lg={3} sm={6} xl={3} xs={12}>
                   <Budget />

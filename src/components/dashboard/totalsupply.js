@@ -1,31 +1,52 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from "@mui/material";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import snackbar from "react-hot-toast";
 import { CountertopsOutlined } from "@mui/icons-material";
+import { useApp } from "src/hooks/useApp";
+import { useToken } from "src/hooks/useToken";
+import { formatBigNumber, parseCurrency } from "src/utils";
 
-export const TotalSupply = (props) => (
-  <Card {...props}>
-    <CardContent>
-      <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-        <Grid item>
-          <Typography color="textSecondary" gutterBottom variant="overline">
-            Total Supply:
-          </Typography>
-          <Typography color="textPrimary" variant="h5">
-            1,6k
-          </Typography>
+export const TotalSupply = (props) => {
+  const { tokenAddress, chainId } = useApp();
+  const { result: totalSupply } = useToken({
+    method: "totalSupply",
+    address: tokenAddress,
+    chainId,
+    logger: (e) => snackbar(e.message),
+    skip: tokenAddress === "0x0",
+  });
+  const { result: symbol } = useToken({
+    method: "symbol",
+    address: tokenAddress,
+    chainId,
+    logger: (e) => snackbar(e.message),
+    skip: tokenAddress === "0x0",
+  });
+
+  return (
+    <Card {...props}>
+      <CardContent>
+        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+          <Grid item>
+            <Typography color="textSecondary" gutterBottom variant="overline">
+              Total Supply:
+            </Typography>
+            <Typography color="textPrimary" variant="h5">
+              {totalSupply && parseCurrency(Number(formatBigNumber(totalSupply)), symbol ?? "")}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Avatar
+              sx={{
+                backgroundColor: "success.main",
+                height: 56,
+                width: 56,
+              }}
+            >
+              <CountertopsOutlined />
+            </Avatar>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Avatar
-            sx={{
-              backgroundColor: "success.main",
-              height: 56,
-              width: 56,
-            }}
-          >
-            <CountertopsOutlined />
-          </Avatar>
-        </Grid>
-      </Grid>
-    </CardContent>
-  </Card>
-);
+      </CardContent>
+    </Card>
+  );
+};
