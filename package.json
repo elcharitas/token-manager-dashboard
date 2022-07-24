@@ -25,7 +25,7 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-simple-snackbar": "^1.1.11",
+    "react-hot-toast": "^2.3.0",
     "uuid": "^8.3.0",
     "web3modal": "^1.9.8"
   },
