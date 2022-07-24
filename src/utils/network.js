@@ -8,7 +8,7 @@ const providerOptions = {
   },
 };
 
-export const web3Modal = (chainId = process.env.NEXT_PUBLIC_CHAIN_ID, theme = "dark") => {
+export const web3Modal = (chainId, theme = "dark") => {
   return new Web3Modal({
     theme,
     network: chainId,
@@ -21,10 +21,10 @@ export const web3Modal = (chainId = process.env.NEXT_PUBLIC_CHAIN_ID, theme = "d
 export const manager = async ({
   logger = () => {},
   sync = false,
-  chainId = process.env.NEXT_PUBLIC_CHAIN_ID,
+  chainId,
+  address,
   managerAbi,
 }) => {
-  const address = process.env.NEXT_PUBLIC_MANAGER;
   const eth3 = sync
     ? provider.ethersSync(process.env.NEXT_PUBLIC_RPC_NODE)
     : (await provider.ethers(chainId, logger)).getSigner();
