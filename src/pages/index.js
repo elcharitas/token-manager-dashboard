@@ -12,20 +12,30 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { useApp } from "src/hooks/useApp";
 import { useWallet } from "src/hooks/useWallet";
 import { SelectField } from "src/components/select";
+import { useToken } from "src/hooks/useToken";
+import { parseAddress, parseNumber } from "src/utils";
 
 const Dashboard = () => {
   const [connectWallet] = useWallet();
-  const {
-    setTitle,
-    setChainId,
-    tokenAddress,
-    setTokenAddress,
-    accounts: [user],
-  } = useApp();
+  const { setTitle, setChainId, tokenAddress, chainId, setTokenAddress } = useApp();
+
+  const { mutate } = useToken({
+    address: tokenAddress,
+    chainId,
+    logger: (e) => snackbar(e.message),
+  });
+
   const [chain, setChain] = useState(1);
   const [address, setAddress] = useState(
     typeof window !== "undefined" && localStorage.getItem("tokenAddress")
   );
+
+  const [minHold, setMinHold] = useState("");
+  const [maxHold, setMaxHold] = useState("");
+  const [trfAmount, setTrfAmount] = useState("");
+  const [apvAmount, setApvAmount] = useState("");
+  const [trfAddress, setTrfAddress] = useState("");
+  const [apvAddress, setApvAddress] = useState("");
 
   useEffect(() => {
     setTitle("Login");
@@ -43,6 +53,54 @@ const Dashboard = () => {
       })
       .catch(() => {
         snackbar.error("Wallet not connected");
+      });
+  };
+
+  const updateLimit = async () => {
+    await connectWallet()
+      .then(async () => {
+        await mutate("setLimits", parseNumber(minHold), parseNumber(maxHold))
+          .then(() => {
+            snackbar.success("Limits updated successfully");
+          })
+          .catch(() => {
+            snackbar.error("Check your inputs");
+          });
+      })
+      .catch(() => {
+        snackbar.error("Some error occurred");
+      });
+  };
+
+  const transferToken = async () => {
+    await connectWallet()
+      .then(async () => {
+        await mutate("transfer", parseAddress(trfAddress), parseNumber(trfAmount))
+          .then(() => {
+            snackbar.success("Token transfer was successful");
+          })
+          .catch(() => {
+            snackbar.error("Something went wrong with transfer");
+          });
+      })
+      .catch(() => {
+        snackbar.error("Some error occurred");
+      });
+  };
+
+  const approveAddress = async () => {
+    await connectWallet()
+      .then(async () => {
+        await mutate("approve", parseAddress(apvAddress), parseNumber(apvAmount))
+          .then(() => {
+            snackbar.success("Token approval was successful");
+          })
+          .catch(() => {
+            snackbar.error("Something went wrong with approval");
+          });
+      })
+      .catch(() => {
+        snackbar.error("Some error occurred");
       });
   };
 
@@ -72,13 +130,100 @@ const Dashboard = () => {
                   <CirculatingSupply sx={{ height: "100%" }} />
                 </Grid>
                 <Grid item lg={4} md={6} xs={12}>
-                  <Column sx={{ height: "100%" }} />
+                  <Column title="Token Limits" sx={{ height: "100%" }}>
+                    <TextField
+                      variant="outlined"
+                      label="Token Minimum hold"
+                      color="warning"
+                      fullWidth
+                      value={minHold}
+                      sx={{ marginTop: 4 }}
+                      onChange={(e) => setMinHold(e.target.value)}
+                    />
+                    <TextField
+                      variant="outlined"
+                      label="Token Maximum hold"
+                      color="warning"
+                      fullWidth
+                      value={maxHold}
+                      sx={{ marginTop: 4 }}
+                      onChange={(e) => setMaxHold(e.target.value)}
+                    />
+                    <Box sx={{ marginTop: 4 }}>
+                      <Button
+                        variant="contained"
+                        color="warning"
+                        sx={{ color: "white" }}
+                        onClick={updateLimit}
+                      >
+                        Update Limits
+                      </Button>
+                    </Box>
+                  </Column>
                 </Grid>
                 <Grid item lg={4} md={6} xs={12}>
-                  <Column sx={{ height: "100%" }} />
+                  <Column title="Token Transfer" sx={{ height: "100%" }}>
+                    <TextField
+                      variant="outlined"
+                      label="Wallet Address"
+                      color="warning"
+                      fullWidth
+                      value={trfAddress}
+                      sx={{ marginTop: 4 }}
+                      onChange={(e) => setTrfAddress(e.target.value)}
+                    />
+                    <TextField
+                      variant="outlined"
+                      label="Amount"
+                      color="warning"
+                      fullWidth
+                      value={trfAmount}
+                      sx={{ marginTop: 4 }}
+                      onChange={(e) => setTrfAmount(e.target.value)}
+                    />
+                    <Box sx={{ marginTop: 4 }}>
+                      <Button
+                        variant="contained"
+                        color="warning"
+                        sx={{ color: "white" }}
+                        onClick={transferToken}
+                      >
+                        Transfer Token
+                      </Button>
+                    </Box>
+                  </Column>
                 </Grid>
                 <Grid item lg={4} md={6} xs={12}>
-                  <Column sx={{ height: "100%" }} />
+                  <Column title="Spend Approve" sx={{ height: "100%" }}>
+                    <TextField
+                      variant="outlined"
+                      label="Contract/Wallet Address"
+                      color="warning"
+                      fullWidth
+                      value={apvAddress}
+                      sx={{ marginTop: 4 }}
+                      onChange={(e) => setApvAddress(e.target.value)}
+                    />
+                    <TextField
+                      variant="outlined"
+                      label="Approve Amount"
+                      color="warning"
+                      fullWidth
+                      value={apvAmount}
+                      sx={{ marginTop: 4 }}
+                      onChange={(e) => setApvAmount(e.target.value)}
+                    />
+                    <Box sx={{ marginTop: 4 }}>
+                      <Button
+                        variant="contained"
+                        color="warning"
+                        sx={{ color: "white" }}
+                        onClick={approveAddress}
+                      >
+                        Approve Address
+                      </Button>
+                    </Box>
+                  </Column>
                 </Grid>
               </>
             ) : (

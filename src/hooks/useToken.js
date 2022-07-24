@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import logger from "react-hot-toast";
 import { manager } from "src/utils";
 
 const useToken = ({ method = "totalSupply", ...opts }) => {
@@ -8,7 +7,7 @@ const useToken = ({ method = "totalSupply", ...opts }) => {
   const [loading, setLoading] = useState(false);
 
   const mutate = async (method, ...params) => {
-    const contract = await manager({ logger, ...opts });
+    const contract = await manager(opts);
     return await contract[method](...params);
   };
 
