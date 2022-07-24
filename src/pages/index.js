@@ -25,7 +25,7 @@ const Dashboard = () => {
     logger: (e) => snackbar(e.message),
   });
 
-  const [chain, setChain] = useState(1);
+  const [chain, setChain] = useState(4);
   const [address, setAddress] = useState(
     typeof window !== "undefined" && localStorage.getItem("tokenAddress")
   );
@@ -242,8 +242,8 @@ const Dashboard = () => {
                     <SelectField
                       label="Deployed Network"
                       options={[
-                        { label: "Homestead (Mainnet)", value: 1 },
                         { label: "Rinkeby (Testnet)", value: 4 },
+                        { label: "Homestead (Mainnet)", value: 1 },
                       ]}
                       color="warning"
                       sx={{ marginTop: 2 }}
