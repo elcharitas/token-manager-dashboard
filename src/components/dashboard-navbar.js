@@ -21,11 +21,11 @@ export const DashboardNavbar = (props) => {
           }}
         >
           <Tooltip title="Search">
-            <IconButton sx={{ ml: 1, textTransform: "uppercase" }}>Dashboard</IconButton>
+            <IconButton sx={{ ml: 1 }}>Dashboard</IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
 
-          <Button color="warning" variant="outlined">
+          <Button sx={{ textTransform: "capitalize" }} color="warning" variant="outlined">
             Connect Wallet
           </Button>
           <Avatar
