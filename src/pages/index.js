@@ -13,7 +13,7 @@ import { useApp } from "src/hooks/useApp";
 import { useWallet } from "src/hooks/useWallet";
 import { SelectField } from "src/components/select";
 import { useToken } from "src/hooks/useToken";
-import { parseAddress, parseNumber } from "src/utils";
+import { manager, parseAddress, parseNumber } from "src/utils";
 
 const Dashboard = () => {
   const [connectWallet] = useWallet();
@@ -43,12 +43,19 @@ const Dashboard = () => {
 
   const handleLogin = async () => {
     await connectWallet()
-      .then(() => {
+      .then(async () => {
         if (address) {
-          setChainId(chain);
-          setTokenAddress(address);
-          localStorage.setItem("tokenAddress", address);
-          setTitle("Overview");
+          await manager({ address, chainId: chain })
+            .then(() => {
+              setChainId(chain);
+              setTokenAddress(address);
+              localStorage.setItem("tokenAddress", address);
+              setTitle("Overview");
+              snackbar.success("Dashboard access successful");
+            })
+            .catch(() => {
+              snackbar.error("Only contract owner can access dashboard");
+            });
         } else snackbar.error("Contract Address is required");
       })
       .catch(() => {

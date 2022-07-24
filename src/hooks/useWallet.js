@@ -4,7 +4,7 @@ import { provider, formatBigNumber, formatAddress } from "../utils";
 import { useApp } from "./useApp";
 
 export function useWallet() {
-  const { chainId, setAccounts } = useApp();
+  const { chainId, accounts, setAccounts } = useApp();
 
   const connectWallet = async () => {
     provider
@@ -21,7 +21,8 @@ export function useWallet() {
             balance: formatBigNumber(await eth3.getBalance(address)),
             connected: true,
           });
-          snackbar.success(`${formatAddress(address)} connected successfully`);
+          if (accounts.length === 0)
+            snackbar.success(`${formatAddress(address)} connected successfully`);
         }
         setAccounts(accountList);
       });
