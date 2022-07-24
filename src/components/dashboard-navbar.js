@@ -2,6 +2,9 @@ import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import { AppBar, Button, Avatar, Box, Typography, Toolbar, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { getGravatar } from "src/utils";
+import { useWallet } from "src/hooks/useWallet";
+import { useApp } from "src/hooks/useApp";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -9,6 +12,11 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 }));
 
 export const DashboardNavbar = (props) => {
+  const {
+    accounts: [user],
+  } = useApp();
+  const [connectWallet, disconnectWallet] = useWallet();
+
   return (
     <>
       <DashboardNavbarRoot {...props}>
@@ -25,16 +33,22 @@ export const DashboardNavbar = (props) => {
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
 
-          <Button sx={{ textTransform: "capitalize" }} color="warning" variant="outlined">
-            Connect Wallet
+          <Button
+            sx={{ textTransform: "capitalize" }}
+            color="warning"
+            variant="outlined"
+            onClick={!user?.connected ? connectWallet : disconnectWallet}
+          >
+            {!user?.connected ? "Connect Wallet" : user?.address}
           </Button>
           <Avatar
             sx={{
               height: 40,
               width: 40,
               ml: 1,
+              border: "0.7px solid",
             }}
-            src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
+            src={getGravatar(user?.address || "0x0")}
           >
             <SearchIcon fontSize="small" />
           </Avatar>
