@@ -1,6 +1,7 @@
 import { Avatar, Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import MoneyIcon from "@mui/icons-material/Money";
+import { parseCurrency } from "src/utils";
 
 export const Budget = (props) => (
   <Card sx={{ height: "100%" }} {...props}>
@@ -10,8 +11,8 @@ export const Budget = (props) => (
           <Typography color="textSecondary" gutterBottom variant="overline">
             PERSONAL BALANCE
           </Typography>
-          <Typography color="textPrimary" variant="h4">
-            $24k
+          <Typography color="textPrimary" variant="h5">
+            {parseCurrency(234567)}
           </Typography>
         </Grid>
         <Grid item>

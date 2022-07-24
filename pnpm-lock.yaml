@@ -15,6 +15,7 @@ specifiers:
   prop-types: ^15.7.2
   react: ^17.0.2
   react-dom: ^17.0.2
+  react-simple-snackbar: ^1.1.11
   uuid: ^8.3.0
   web3modal: ^1.9.8
 
@@ -31,6 +32,7 @@ dependencies:
   prop-types: 15.8.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
+  react-simple-snackbar: 1.1.11_sfoxds7t5ydpegc3knd667wn6m
   uuid: 8.3.2
   web3modal: 1.9.8
 
@@ -2834,6 +2836,18 @@ packages:
 
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-simple-snackbar/1.1.11_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-l+RMkIoqnOXBQaQbirk4yGaEH5Jeynup/AQBGaq7hCPIIraOQi2RFVthZIM4Ms6sFtdSYxQ8emN4/jI30l7gXw==}
+    peerDependencies:
+      react: 16.x
+      react-dom: 16.x
+    dependencies:
+      '@babel/runtime': 7.18.9
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-transition-group: 4.4.2_sfoxds7t5ydpegc3knd667wn6m
     dev: false
 
   /react-transition-group/4.4.2_sfoxds7t5ydpegc3knd667wn6m:

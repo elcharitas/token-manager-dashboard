@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "@emotion/styled";
-import { AppBar, Button, Avatar, Box, IconButton, Toolbar, Tooltip } from "@mui/material";
+import { AppBar, Button, Avatar, Box, Typography, Toolbar, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
@@ -20,8 +20,8 @@ export const DashboardNavbar = (props) => {
             px: 2,
           }}
         >
-          <Tooltip title="Search">
-            <IconButton sx={{ ml: 1 }}>Dashboard</IconButton>
+          <Tooltip title="Token Manager">
+            <Typography sx={{ ml: 1 }}>Manager</Typography>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
 

@@ -10,7 +10,7 @@ const App = (props) => {
   return (
     <>
       <Head>
-        <title>Material Kit</title>
+        <title>Manager</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={createTheme({ palette: { mode: "dark" } })}>
