@@ -1,10 +1,10 @@
 import { utils, ethers } from "ethers";
 
 export const parseCurrency = (value, symbol = "", decimals = 2) =>
-  `${symbol} ${new Intl.NumberFormat("en-US", {
+  `${new Intl.NumberFormat("en-US", {
     notation: "compact",
     maximumFractionDigits: decimals,
-  }).format(value)}`;
+  }).format(value)} ${symbol}`;
 
 export const parseAddress = (address) => utils.getAddress(address);
 
