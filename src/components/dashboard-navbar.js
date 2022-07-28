@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import Image from "next/image";
 import styled from "@emotion/styled";
 import { AppBar, Button, Avatar, Box, Typography, Toolbar, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -29,7 +30,9 @@ export const DashboardNavbar = (props) => {
           }}
         >
           <Tooltip title="Token Manager">
-            <Typography sx={{ ml: 1 }}>Manager</Typography>
+            <Typography sx={{ ml: 1 }}>
+              <Image src="/images/logo.png" alt="Token Manager" width="40" height="40" />
+            </Typography>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
 
