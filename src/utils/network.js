@@ -42,7 +42,7 @@ export const provider = {
       this.instance = await web3Modal(chainId).connect().catch(reject);
     }
     this.chainId = chainId;
-    return this.instance;
+    return typeof this.instance === "object" && this.instance;
   },
 
   async disconnect() {
@@ -57,9 +57,9 @@ export const provider = {
           return reject({
             message: "No available wallet instance. Try using a dApp browser",
           });
-        if (formatBigNumber(instance.chainId, "wei") !== String(this.chainId))
+        if (instance.chainId && formatBigNumber(instance.chainId, "wei") !== String(this.chainId))
           return reject({ message: "Please switch to the required network" });
-        return new ethers.providers.Web3Provider(instance);
+        return instance.chainId && new ethers.providers.Web3Provider(instance);
       })
       .catch(reject);
   },
