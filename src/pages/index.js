@@ -29,14 +29,15 @@ const Dashboard = () => {
   const { mutate } = useToken({
     address: tokenAddress,
     chainId,
-    logger: (e) => snackbar(e.message),
+    logger: (e) => {
+      const message = e.message || e?.data?.message || e.reason;
+      message && snackbar.error(message);
+    },
   });
 
-  const [chain, setChain] = useState(4);
+  const [chain, setChain] = useState("");
   const [address, setAddress] = useState("");
 
-  const [minHold, setMinHold] = useState("");
-  const [maxHold, setMaxHold] = useState("");
   const [trfAmount, setTrfAmount] = useState("");
   const [apvAmount, setApvAmount] = useState("");
   const [trfAddress, setTrfAddress] = useState("");
@@ -62,22 +63,6 @@ const Dashboard = () => {
       })
       .catch(() => {
         snackbar.error("Wallet not connected");
-      });
-  };
-
-  const updateLimit = async () => {
-    await connectWallet()
-      .then(async () => {
-        await mutate("setLimits", parseNumber(minHold), parseNumber(maxHold))
-          .then(() => {
-            snackbar.success("Limits updated successfully");
-          })
-          .catch(() => {
-            snackbar.error("Check your inputs");
-          });
-      })
-      .catch(() => {
-        snackbar.error("Some error occurred");
       });
   };
 
@@ -116,9 +101,10 @@ const Dashboard = () => {
   useEffect(() => {
     if (!user?.hash) {
       setTitle("Login");
-      setChain(localStorage.getItem("chainId") ?? 4);
-      setAddress(localStorage.getItem("tokenAddress") ?? "0x0");
+      setChain(localStorage.getItem("chainId") ?? "");
+      setAddress(localStorage.getItem("tokenAddress") ?? "");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.hash]);
 
   return (
@@ -146,39 +132,7 @@ const Dashboard = () => {
                 <Grid item xl={3} lg={3} sm={6} xs={12}>
                   <CirculatingSupply sx={{ height: "100%" }} />
                 </Grid>
-                <Grid item lg={4} md={6} xs={12}>
-                  <Column title="Token Limits" sx={{ height: "100%" }}>
-                    <TextField
-                      variant="outlined"
-                      label="Token Minimum hold"
-                      color="warning"
-                      fullWidth
-                      value={minHold}
-                      sx={{ marginTop: 4 }}
-                      onChange={(e) => setMinHold(e.target.value)}
-                    />
-                    <TextField
-                      variant="outlined"
-                      label="Token Maximum hold"
-                      color="warning"
-                      fullWidth
-                      value={maxHold}
-                      sx={{ marginTop: 4 }}
-                      onChange={(e) => setMaxHold(e.target.value)}
-                    />
-                    <Box sx={{ marginTop: 4 }}>
-                      <Button
-                        variant="contained"
-                        color="warning"
-                        sx={{ color: "white" }}
-                        onClick={updateLimit}
-                      >
-                        Update Limits
-                      </Button>
-                    </Box>
-                  </Column>
-                </Grid>
-                <Grid item lg={4} md={6} xs={12}>
+                <Grid item lg={6} md={6} xs={12}>
                   <Column title="Token Transfer" sx={{ height: "100%" }}>
                     <TextField
                       variant="outlined"
@@ -210,7 +164,7 @@ const Dashboard = () => {
                     </Box>
                   </Column>
                 </Grid>
-                <Grid item lg={4} md={6} xs={12}>
+                <Grid item lg={6} md={6} xs={12}>
                   <Column title="Spend Approve" sx={{ height: "100%" }}>
                     <TextField
                       variant="outlined"
@@ -247,10 +201,10 @@ const Dashboard = () => {
               <>
                 <Grid item lg={4} md={6} xs={12} />
                 <Grid item lg={4} md={6} xs={12}>
-                  <Column title="Manager" sx={{ height: "100%" }}>
+                  <Column title="Token Manager" sx={{ height: "100%" }}>
                     <TextField
                       variant="outlined"
-                      label="Contract Address"
+                      label="Token Address"
                       color="warning"
                       fullWidth
                       value={address}
@@ -259,11 +213,13 @@ const Dashboard = () => {
                     <SelectField
                       label="Deployed Network"
                       options={[
+                        { label: "", value: "" },
                         { label: "Rinkeby (Testnet)", value: 4 },
                         { label: "Goerli (Testnet)", value: 5 },
                         { label: "Ropsten (Testnet)", value: 3 },
                         { label: "Kovan (Testnet)", value: 42 },
                         { label: "Mumbai (Testnet)", value: 80001 },
+                        { label: "Polygon (Mainnet)", value: 137 },
                         { label: "Homestead (Mainnet)", value: 1 },
                       ]}
                       color="warning"
@@ -278,7 +234,7 @@ const Dashboard = () => {
                         sx={{ color: "white" }}
                         onClick={handleLogin}
                       >
-                        Access Dashboard &rarr;
+                        Access Manager &rarr;
                       </Button>
                     </Box>
                   </Column>
