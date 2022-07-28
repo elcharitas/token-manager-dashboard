@@ -1,7 +1,9 @@
 import Head from "next/head";
+import Image from "next/image";
 import NextLink from "next/link";
 import { Box, Button, Container } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Typography } from "@mui/material";
 
 const NotFound = () => (
   <>
@@ -25,26 +27,27 @@ const NotFound = () => (
             flexDirection: "column",
           }}
         >
-          <Box sx={{ textAlign: "center" }}>
-            <img
-              alt="Under development"
-              src="/static/images/undraw_page_not_found_su7k.svg"
-              style={{
-                marginTop: 50,
-                display: "inline-block",
-                maxWidth: "100%",
-                width: 560,
-              }}
-            />
+          <Box
+            sx={{
+              textAlign: "center",
+              marginTop: 20,
+              display: "inline-block",
+              maxWidth: "100%",
+              width: 560,
+            }}
+          >
+            <Image alt="Under development" src="/favicon.png" width={200} height={200} />
+            <Typography gutterBottom>Oops! This page was not found!</Typography>
           </Box>
           <NextLink href="/" passHref>
             <Button
               component="a"
               startIcon={<ArrowBackIcon fontSize="small" />}
-              sx={{ mt: 3 }}
+              sx={{ color: "white" }}
+              color="warning"
               variant="contained"
             >
-              Explore Dashboard
+              Explore
             </Button>
           </NextLink>
         </Box>
