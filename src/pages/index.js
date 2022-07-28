@@ -103,7 +103,9 @@ const Dashboard = () => {
     if (!user?.hash) {
       setTitle("Login");
       setChain(localStorage.getItem("chainId") ?? "");
-      setAddress(localStorage.getItem("tokenAddress") ?? "");
+      setAddress(
+        localStorage.getItem("tokenAddress") ?? "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+      );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.hash]);
