@@ -12,6 +12,7 @@ import { DashboardLayout } from "../components/dashboard-layout";
 import { useApp } from "src/hooks/useApp";
 import { useWallet } from "src/hooks/useWallet";
 import { SelectField } from "src/components/select";
+import { Credit } from "src/components/credits";
 import { useToken } from "src/hooks/useToken";
 import { manager, parseAddress, parseNumber } from "src/utils";
 
@@ -242,6 +243,9 @@ const Dashboard = () => {
                 <Grid item lg={4} md={6} xs={12} />
               </>
             )}
+            <Grid item lg={12} md={12} xs={12}>
+              <Credit />
+            </Grid>
           </Grid>
         </Container>
       </Box>
