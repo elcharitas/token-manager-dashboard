@@ -9,6 +9,35 @@ const providerOptions = {
   },
 };
 
+export const networks = {
+  1: {
+    name: "Homestead (Mainnet)",
+  },
+  3: {
+    name: "Ropsten (Testnet)",
+  },
+  4: {
+    name: "Rinkeby (Testnet)",
+  },
+  5: {
+    name: "Goerli (Testnet)",
+  },
+  137: {
+    name: "Polygon (Mainnet)",
+  },
+  80001: {
+    name: "Mumbai (Testnet)",
+  },
+};
+
+/**
+ *
+ * @param {keyof networks} network
+ * @returns
+ */
+const getRPCNode = (network) =>
+  `https://${networks[network].name}.infura.io/v3/${process.env.NEXT_PUBLIC_RPC_KEY}`;
+
 export const web3Modal = (chainId, theme = "dark") => {
   return new Web3Modal({
     theme,
@@ -26,11 +55,11 @@ export const manager = async ({
   address,
   abi = erc20Abi,
 }) => {
-  const eth3 = sync
-    ? provider.ethersSync(process.env.NEXT_PUBLIC_RPC_NODE)
-    : (await provider.ethers(chainId, logger)).getSigner();
+  const rpcNode = getRPCNode(chainId);
+  const syncProvider = provider.ethersSync(rpcNode);
+  const eth3 = !sync && (await provider.ethers(chainId, logger))?.getSigner();
 
-  return new ethers.Contract(address, abi, eth3);
+  return new ethers.Contract(address, abi, eth3 || syncProvider);
 };
 
 export const provider = {
@@ -57,6 +86,7 @@ export const provider = {
           return reject({
             message: "No available wallet instance. Try using a dApp browser",
           });
+        console.log(instance.chainId, this.chainId);
         if (instance.chainId && formatBigNumber(instance.chainId, "wei") !== String(this.chainId))
           return reject({ message: "Please switch to the required network" });
         return instance.chainId && new ethers.providers.Web3Provider(instance);
