@@ -31,7 +31,7 @@ export function useWallet() {
 
   const uauth = new UAuth({
     clientID: process.env.NEXT_PUBLIC_UD_CLIENT_ID,
-    redirectUri: process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000",
+    redirectUri: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
     scope: "openid wallet",
   });
 
