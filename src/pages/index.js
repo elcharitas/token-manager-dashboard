@@ -14,7 +14,7 @@ import { useWallet } from "src/hooks/useWallet";
 import { SelectField } from "src/components/select";
 import { Credit } from "src/components/credits";
 import { useToken } from "src/hooks/useToken";
-import { manager, parseAddress, parseNumber } from "src/utils";
+import { manager, networks, parseAddress, parseNumber } from "src/utils";
 
 const Dashboard = () => {
   const [connectWallet] = useWallet();
@@ -215,16 +215,10 @@ const Dashboard = () => {
                     />
                     <SelectField
                       label="Deployed Network"
-                      options={[
-                        { label: "", value: "" },
-                        { label: "Rinkeby (Testnet)", value: 4 },
-                        { label: "Goerli (Testnet)", value: 5 },
-                        { label: "Ropsten (Testnet)", value: 3 },
-                        { label: "Kovan (Testnet)", value: 42 },
-                        { label: "Mumbai (Testnet)", value: 80001 },
-                        { label: "Polygon (Mainnet)", value: 137 },
-                        { label: "Homestead (Mainnet)", value: 1 },
-                      ]}
+                      options={Object.values(networks).map((nw, value) => ({
+                        label: nw.name,
+                        value,
+                      }))}
                       color="warning"
                       sx={{ marginTop: 2 }}
                       value={chain}
