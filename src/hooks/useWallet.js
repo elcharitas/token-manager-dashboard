@@ -30,15 +30,15 @@ export function useWallet() {
   };
 
   const uauth = new UAuth({
-    clientID: "bdae3ae2-9a50-4c45-847a-bae237bc0e7d",
-    redirectUri: "http://localhost:3000",
+    clientID: process.env.NEXT_PUBLIC_UD_CLIENT_ID,
+    redirectUri: process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000",
     scope: "openid wallet",
   });
 
   const connectUDWallet = async () => {
     try {
       const authorization = await uauth.loginWithPopup();
-      const address = authorization.idToken.wallet_address
+      const address = authorization.idToken.wallet_address;
 
       setAccounts([
         {
@@ -46,7 +46,7 @@ export function useWallet() {
           address: formatAddress(address),
           balance: 0, // TODO get Balance
           connected: true,
-          UDName: authorization.idToken.sub
+          UDName: authorization.idToken.sub,
         },
       ]);
     } catch (error) {
