@@ -37,8 +37,6 @@ export function useWallet() {
 
   const connectUDWallet = async () => {
     try {
-      const accountList = [];
-
       const authorization = await uauth.loginWithPopup();
       const address = authorization.idToken.wallet_address
 
