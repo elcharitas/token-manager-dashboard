@@ -57,8 +57,8 @@ const Dashboard = () => {
               setTitle("Overview");
               snackbar.success("Dashboard access successful");
             })
-            .catch(() => {
-              snackbar.error("Only contract owner can access dashboard");
+            .catch((e) => {
+              snackbar.error("Oops some error occurred while connecting");
             });
         } else snackbar.error("Contract Address is required");
       })
