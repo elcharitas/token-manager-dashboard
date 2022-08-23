@@ -3,7 +3,7 @@ import { createContext, useContext } from "react";
 export const AppContext = createContext({
   title: "",
   tokenAddress: "",
-  chainId: 4,
+  chainId: 1,
   accounts: [
     {
       hash: "0x0",
