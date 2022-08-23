@@ -17,26 +17,24 @@ import { useToken } from "src/hooks/useToken";
 import { manager, networks, parseAddress, parseNumber } from "src/utils";
 
 const Dashboard = () => {
-  const [connectWallet] = useWallet();
-  const {
-    setTitle,
-    setChainId,
-    tokenAddress,
-    chainId,
-    setTokenAddress,
-    accounts: [user],
-  } = useApp();
+  const chains = Object.entries(networks).map(([value, nw]) => ({
+    label: nw.name,
+    value,
+  }));
+
+  const [[user], connectWallet] = useWallet();
+  const { setTitle, setChainId, tokenAddress, chainId, setTokenAddress } = useApp();
 
   const { mutate } = useToken({
     address: tokenAddress,
-    chainId,
+    chainId: chains[chainId]?.value,
     logger: (e) => {
       const message = e.message || e?.data?.message || e.reason;
       message && snackbar.error(message);
     },
+    skip: typeof window !== "undefined" && !localStorage.getItem("chainId"),
   });
 
-  const [chain, setChain] = useState("");
   const [address, setAddress] = useState("");
 
   const [trfAmount, setTrfAmount] = useState("");
@@ -48,16 +46,15 @@ const Dashboard = () => {
     await connectWallet()
       .then(async () => {
         if (address) {
-          await manager({ address, chainId: chain })
+          await manager({ address, chainId: chains[chainId]?.value })
             .then(() => {
-              setChainId(chain);
               setTokenAddress(address);
               localStorage.setItem("tokenAddress", address);
-              localStorage.setItem("chainId", chain);
+              localStorage.setItem("chainId", chainId);
               setTitle("Overview");
               snackbar.success("Dashboard access successful");
             })
-            .catch((e) => {
+            .catch(() => {
               snackbar.error("Oops some error occurred while connecting");
             });
         } else snackbar.error("Contract Address is required");
@@ -102,7 +99,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (!user?.hash) {
       setTitle("Login");
-      setChain(localStorage.getItem("chainId") ?? "");
+      setChainId(localStorage.getItem("chainId") ?? "");
       setAddress(
         localStorage.getItem("tokenAddress") ?? "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
       );
@@ -215,14 +212,11 @@ const Dashboard = () => {
                     />
                     <SelectField
                       label="Deployed Network"
-                      options={Object.values(networks).map((nw, value) => ({
-                        label: nw.name,
-                        value,
-                      }))}
+                      options={chains}
                       color="warning"
                       sx={{ marginTop: 2 }}
-                      value={chain}
-                      onChange={(e) => setChain(e.target.value)}
+                      value={chainId}
+                      onChange={(e) => setChainId(e.target.value)}
                     />
                     <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
                       <Button
@@ -230,6 +224,7 @@ const Dashboard = () => {
                         color="warning"
                         sx={{ color: "white" }}
                         onClick={handleLogin}
+                        disabled={!chainId}
                       >
                         Access Manager &rarr;
                       </Button>

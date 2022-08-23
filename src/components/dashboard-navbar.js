@@ -13,10 +13,8 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 }));
 
 export const DashboardNavbar = (props) => {
-  const {
-    accounts: [user],
-  } = useApp();
-  const [connectWallet, disconnectWallet, connectUDWallet, disconnectUDWallet] = useWallet();
+  const [[user], connectWallet, disconnectWallet, connectUDWallet, disconnectUDWallet] =
+    useWallet();
 
   return (
     <>

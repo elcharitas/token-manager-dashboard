@@ -68,5 +68,5 @@ export function useWallet() {
     console.log("Logged out with Unstoppable");
   };
 
-  return [connectWallet, disconnectWallet, connectUDWallet, disconnectUDWallet];
+  return [accounts, connectWallet, disconnectWallet, connectUDWallet, disconnectUDWallet];
 }
