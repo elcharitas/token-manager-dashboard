@@ -43,25 +43,17 @@ const Dashboard = () => {
   const [apvAddress, setApvAddress] = useState("");
 
   const handleLogin = async () => {
-    await connectWallet()
-      .then(async () => {
-        if (address) {
-          await manager({ address, chainId: chains[chainId]?.value })
-            .then(() => {
-              setTokenAddress(address);
-              localStorage.setItem("tokenAddress", address);
-              localStorage.setItem("chainId", chainId);
-              setTitle("Overview");
-              snackbar.success("Dashboard access successful");
-            })
-            .catch(() => {
-              snackbar.error("Oops some error occurred while connecting");
-            });
-        } else snackbar.error("Contract Address is required");
-      })
-      .catch(() => {
-        snackbar.error("Wallet not connected");
-      });
+    if (user?.hash) {
+      if (address) {
+        setTokenAddress(address);
+        localStorage.setItem("tokenAddress", address);
+        localStorage.setItem("chainId", chainId);
+        setTitle("Overview");
+        snackbar.success("Dashboard access successful");
+      } else snackbar.error("Contract Address is required");
+    } else {
+      snackbar.error("Wallet not connected");
+    }
   };
 
   const transferToken = async () => {
@@ -224,7 +216,7 @@ const Dashboard = () => {
                         color="warning"
                         sx={{ color: "white" }}
                         onClick={handleLogin}
-                        disabled={!chainId}
+                        disabled={!chainId && !user?.hash}
                       >
                         Access Manager &rarr;
                       </Button>
