@@ -1,4 +1,5 @@
 import snackbar from "react-hot-toast";
+import UAuth from "@uauth/js";
 import { provider, formatBigNumber, formatAddress } from "../utils";
 
 import { useApp } from "./useApp";
@@ -28,6 +29,31 @@ export function useWallet() {
       });
   };
 
+  const uauth = new UAuth({
+    clientID: process.env.NEXT_PUBLIC_UD_CLIENT_ID,
+    redirectUri: process.env.NEXT_PUBLIC_VERCEL_URL || "http://localhost:3000",
+    scope: "openid wallet",
+  });
+
+  const connectUDWallet = async () => {
+    try {
+      const authorization = await uauth.loginWithPopup();
+      const address = authorization.idToken.wallet_address;
+
+      setAccounts([
+        {
+          hash: address,
+          address: formatAddress(address),
+          balance: 0, // TODO get Balance
+          connected: true,
+          UDName: authorization.idToken.sub,
+        },
+      ]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const disconnectWallet = async () => {
     await provider.disconnect().then(() => {
       setAccounts([]);
@@ -35,5 +61,12 @@ export function useWallet() {
     });
   };
 
-  return [connectWallet, disconnectWallet];
+  const disconnectUDWallet = async () => {
+    await uauth.logout();
+    snackbar.success("Wallet has been disconnected");
+
+    console.log("Logged out with Unstoppable");
+  };
+
+  return [connectWallet, disconnectWallet, connectUDWallet, disconnectUDWallet];
 }
