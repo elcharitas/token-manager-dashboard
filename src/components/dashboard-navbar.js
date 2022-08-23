@@ -3,9 +3,9 @@ import Image from "next/image";
 import styled from "@emotion/styled";
 import { AppBar, Button, Avatar, Box, Typography, Toolbar, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { AccountBalanceWallet, AccountBalanceWalletSharp } from "@mui/icons-material";
 import { getGravatar } from "src/utils";
 import { useWallet } from "src/hooks/useWallet";
-import { useApp } from "src/hooks/useApp";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -41,7 +41,28 @@ export const DashboardNavbar = (props) => {
               variant="outlined"
               onClick={!user?.connected ? connectWallet : disconnectWallet}
             >
-              {!user?.connected ? "Connect Wallet" : user?.address}
+              {!user?.connected ? (
+                <Typography
+                  as="span"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    as="span"
+                    sx={{
+                      display: { xs: "none", md: "inline" },
+                    }}
+                  >
+                    Connect
+                  </Typography>{" "}
+                  Wallet
+                  <AccountBalanceWallet />
+                </Typography>
+              ) : (
+                user?.address
+              )}
             </Button>
           )}
           {(!user?.connected || user?.UDName) && (
@@ -51,7 +72,27 @@ export const DashboardNavbar = (props) => {
               variant="outlined"
               onClick={!user?.connected ? connectUDWallet : disconnectUDWallet}
             >
-              {!user?.connected ? "Connect with Unstoppable" : user?.UDName}
+              {!user?.connected ? (
+                <Typography
+                  as="span"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography
+                    as="span"
+                    sx={{
+                      display: { xs: "none", md: "inline" },
+                    }}
+                  >
+                    Connect with
+                  </Typography>{" "}
+                  Unstoppable <AccountBalanceWalletSharp />
+                </Typography>
+              ) : (
+                user?.UDName
+              )}
             </Button>
           )}
           <Avatar
