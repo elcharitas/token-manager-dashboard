@@ -55,9 +55,8 @@ export const DashboardNavbar = (props) => {
                       display: { xs: "none", md: "inline" },
                     }}
                   >
-                    Connect
+                    Connect Wallet
                   </Typography>{" "}
-                  Wallet
                   <AccountBalanceWallet />
                 </Typography>
               ) : (
@@ -86,9 +85,9 @@ export const DashboardNavbar = (props) => {
                       display: { xs: "none", md: "inline" },
                     }}
                   >
-                    Connect with
+                    Connect with Unstoppable
                   </Typography>{" "}
-                  Unstoppable <AccountBalanceWalletSharp />
+                  <AccountBalanceWalletSharp />
                 </Typography>
               ) : (
                 user?.UDName
