@@ -9,9 +9,9 @@ export const Credit = () => {
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Typography>
             Crafted with &nbsp;
-            <Typography sx={{ display: "inline" }} color="error">
+            <Box as="span" sx={{ display: "inline" }} color="error">
               ❤️
-            </Typography>
+            </Box>
             &nbsp; by &nbsp;
             <Link sx={{ color: "orange" }} href="https://github.com/elcharitas">
               elcharitas
