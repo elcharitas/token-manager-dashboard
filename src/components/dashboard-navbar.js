@@ -61,7 +61,7 @@ export const DashboardNavbar = (props) => {
                   <AccountBalanceWallet />
                 </Typography>
               ) : (
-                user?.address
+                user?.UDName || user?.address
               )}
             </Button>
           )}
