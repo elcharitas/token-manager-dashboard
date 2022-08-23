@@ -16,7 +16,7 @@ export const DashboardNavbar = (props) => {
   const {
     accounts: [user],
   } = useApp();
-  const [connectWallet, disconnectWallet] = useWallet();
+  const [connectWallet, disconnectWallet, connectUDWallet, disconnectUDWallet] = useWallet();
 
   return (
     <>
@@ -36,14 +36,26 @@ export const DashboardNavbar = (props) => {
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
 
-          <Button
-            sx={{ textTransform: "capitalize" }}
-            color="warning"
-            variant="outlined"
-            onClick={!user?.connected ? connectWallet : disconnectWallet}
-          >
-            {!user?.connected ? "Connect Wallet" : user?.address}
-          </Button>
+          {(!user?.connected || !user?.UDName) && (
+            <Button
+              sx={{ textTransform: "capitalize" }}
+              color="warning"
+              variant="outlined"
+              onClick={!user?.connected ? connectWallet : disconnectWallet}
+            >
+              {!user?.connected ? "Connect Wallet" : user?.address}
+            </Button>
+          )}
+          {(!user?.connected || user?.UDName) && (
+            <Button
+              sx={{ textTransform: "capitalize", marginLeft: "10px" }}
+              color="primary"
+              variant="outlined"
+              onClick={!user?.connected ? connectUDWallet : disconnectUDWallet}
+            >
+              {!user?.connected ? "Connect with Unstoppable" : user?.UDName}
+            </Button>
+          )}
           <Avatar
             sx={{
               height: 40,

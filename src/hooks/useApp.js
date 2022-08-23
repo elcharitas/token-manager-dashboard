@@ -10,6 +10,7 @@ export const AppContext = createContext({
       address: "0x0",
       balance: 0,
       connected: false,
+      UDName: undefined, // unstoppable domain name
     },
   ],
 });
