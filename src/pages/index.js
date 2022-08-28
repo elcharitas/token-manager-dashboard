@@ -166,7 +166,7 @@ const Dashboard = () => {
                   <Column title="Spend Approve" sx={{ height: "100%" }}>
                     <TextField
                       variant="outlined"
-                      label="Contract/Wallet Address"
+                      label="Smart Contract/Wallet Address"
                       color="warning"
                       fullWidth
                       value={apvAddress}
@@ -175,7 +175,7 @@ const Dashboard = () => {
                     />
                     <TextField
                       variant="outlined"
-                      label="Approve Amount"
+                      label="Amount (measured in ether)"
                       color="warning"
                       fullWidth
                       value={apvAmount}
