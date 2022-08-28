@@ -149,11 +149,9 @@ export const dataFeeds = {
  *
  * @param {string} tokenAddress
  * @param {keyof dataFeeds} chainId
- * @returns {{ feed: string; name: string} | undefined}
+ * @returns {{ feed?: string; name?: string}}
  */
 export const getSourceByToken = (tokenAddress, chainId) => {
   const sources = dataFeeds[chainId];
-  if (sources && tokenAddress in sources) {
-    return sources[tokenAddress];
-  }
+  return sources?.[tokenAddress] || {};
 };
