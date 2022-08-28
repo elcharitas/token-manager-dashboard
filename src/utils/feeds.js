@@ -153,5 +153,8 @@ export const dataFeeds = {
  */
 export const getSourceByToken = (tokenAddress, chainId) => {
   const sources = dataFeeds[chainId];
-  return sources?.[tokenAddress] || {};
+  const [address] = Object.keys(sources || {}).filter((address) => {
+    return address.match(tokenAddress);
+  });
+  return sources?.[address] || {};
 };
