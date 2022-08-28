@@ -64,15 +64,15 @@ const Dashboard = () => {
 
   const transferToken = async () => {
     await connectWallet()
-      .then(async () => {
-        await mutate("transfer", parseAddress(trfAddress), parseNumber(trfAmount))
+      .then(() =>
+        mutate("transfer", parseAddress(trfAddress), parseNumber(trfAmount))
           .then(() => {
             snackbar.success("Token transfer was successful");
           })
-          .catch(() => {
-            snackbar.error("Something went wrong with transfer");
-          });
-      })
+          .catch((e) => {
+            snackbar.error(`Sorry, could not transfer: ${e.message.split(":")[1]}`);
+          })
+      )
       .catch(() => {
         snackbar.error("Some error occurred");
       });
@@ -143,7 +143,7 @@ const Dashboard = () => {
                     />
                     <TextField
                       variant="outlined"
-                      label="Amount"
+                      label="Amount (measured in ether)"
                       color="warning"
                       fullWidth
                       value={trfAmount}

@@ -57,7 +57,7 @@ export const web3Modal = (chainId, theme = "dark") => {
 export const manager = async ({
   logger = () => {},
   sync = false,
-  chainId,
+  chainId = provider.chainId,
   address,
   abi = erc20Abi,
 }) => {
