@@ -4,6 +4,7 @@ import { AccountBalanceWallet } from "@mui/icons-material";
 import { formatBigNumber, parseAddress, parseCurrency } from "src/utils";
 import { useApp } from "src/hooks/useApp";
 import { useToken } from "src/hooks/useToken";
+import { useTokenFeed } from "src/hooks/useFeed";
 
 export const Budget = (props) => {
   const {
@@ -11,7 +12,8 @@ export const Budget = (props) => {
     chainId,
     accounts: [authWallet],
   } = useApp();
-  const { result: balance } = useToken({
+  const { priceUSD } = useTokenFeed();
+  const { result: balanceData } = useToken({
     method: "balanceOf",
     args: [authWallet?.hash && parseAddress(authWallet?.hash)],
     address: tokenAddress,
@@ -27,6 +29,8 @@ export const Budget = (props) => {
     skip: tokenAddress === "0x0",
   });
 
+  const balance = formatBigNumber(balanceData);
+
   return (
     symbol && (
       <Card sx={{ height: "100%" }} {...props}>
@@ -37,7 +41,8 @@ export const Budget = (props) => {
                 Wallet Balance:
               </Typography>
               <Typography color="textPrimary" variant="h5">
-                {parseCurrency(formatBigNumber(balance), symbol ?? "")}
+                {parseCurrency(balance, symbol ?? "")}
+                {priceUSD ? ` / ${parseCurrency(priceUSD * balance, "USD")}` : ""}
               </Typography>
             </Grid>
             <Grid item>

@@ -19,7 +19,7 @@ export const useTokenFeed = () => {
   const [, _priceUSD, , _updatedAt] = result || [];
 
   return {
-    priceUSD: formatBigNumber(_priceUSD),
-    updatedAt: formatBigNumber(_updatedAt),
+    priceUSD: formatBigNumber(_priceUSD, "wei"),
+    updatedAt: formatBigNumber(_updatedAt, "wei"),
   };
 };
