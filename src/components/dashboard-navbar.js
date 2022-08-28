@@ -38,7 +38,7 @@ export const DashboardNavbar = (props) => {
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
           {hasAccess && (
-            <>
+            <Tooltip title="Exit current dashboard">
               <Button
                 sx={{ textTransform: "capitalize", mr: "1em" }}
                 color="error"
@@ -47,66 +47,76 @@ export const DashboardNavbar = (props) => {
               >
                 <ResetIcon />
               </Button>
-            </>
+            </Tooltip>
           )}
 
           {(!user?.connected || !user?.UDName) && (
-            <Button
-              sx={{ textTransform: "capitalize" }}
-              color="warning"
-              variant="outlined"
-              onClick={!user?.connected ? connectWallet : disconnectWallet}
+            <Tooltip
+              title={
+                !user?.connected ? "Connect Non-Custodial Wallet" : `Disconnect ${user?.address}`
+              }
             >
-              {!user?.connected ? (
-                <Typography
-                  as="span"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
+              <Button
+                sx={{ textTransform: "capitalize" }}
+                color="warning"
+                variant="outlined"
+                onClick={!user?.connected ? connectWallet : disconnectWallet}
+              >
+                {!user?.connected ? (
                   <Typography
                     as="span"
                     sx={{
-                      display: { xs: "none", md: "inline" },
+                      display: "flex",
+                      alignItems: "center",
                     }}
                   >
-                    Connect Wallet
+                    <Typography
+                      as="span"
+                      sx={{
+                        display: { xs: "none", md: "inline" },
+                      }}
+                    >
+                      Connect Wallet
+                    </Typography>
                   </Typography>
-                </Typography>
-              ) : (
-                user?.UDName || user?.address
-              )}
-            </Button>
+                ) : (
+                  user?.UDName || user?.address
+                )}
+              </Button>
+            </Tooltip>
           )}
           {(!user?.connected || user?.UDName) && (
-            <Button
-              sx={{ textTransform: "capitalize", marginLeft: "10px" }}
-              color="primary"
-              variant="outlined"
-              onClick={!user?.connected ? connectUDWallet : disconnectUDWallet}
+            <Tooltip
+              title={!user?.connected ? "Connect with Unstoppable" : `Disconnect ${user?.UDName}`}
             >
-              {!user?.connected ? (
-                <Typography
-                  as="span"
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
+              <Button
+                sx={{ textTransform: "capitalize", marginLeft: "10px" }}
+                color="primary"
+                variant="outlined"
+                onClick={!user?.connected ? connectUDWallet : disconnectUDWallet}
+              >
+                {!user?.connected ? (
                   <Typography
                     as="span"
                     sx={{
-                      display: { xs: "none", md: "inline" },
+                      display: "flex",
+                      alignItems: "center",
                     }}
                   >
-                    Connect with Unstoppable
+                    <Typography
+                      as="span"
+                      sx={{
+                        display: { xs: "none", md: "inline" },
+                      }}
+                    >
+                      Connect with Unstoppable
+                    </Typography>
                   </Typography>
-                </Typography>
-              ) : (
-                user?.UDName
-              )}
-            </Button>
+                ) : (
+                  user?.UDName
+                )}
+              </Button>
+            </Tooltip>
           )}
           <Avatar
             sx={{
