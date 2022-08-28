@@ -3,9 +3,10 @@ import Image from "next/image";
 import styled from "@emotion/styled";
 import { AppBar, Button, Avatar, Box, Typography, Toolbar, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { AccountBalanceWallet, AccountBalanceWalletSharp } from "@mui/icons-material";
+import ResetIcon from "@mui/icons-material/ResetTv";
 import { getGravatar } from "src/utils";
 import { useWallet } from "src/hooks/useWallet";
+import { useApp } from "src/hooks/useApp";
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -13,8 +14,11 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 }));
 
 export const DashboardNavbar = (props) => {
+  const { tokenAddress, chainId, setTokenAddress } = useApp();
   const [[user], connectWallet, disconnectWallet, connectUDWallet, disconnectUDWallet] =
     useWallet();
+
+  const hasAccess = user?.connected && tokenAddress && tokenAddress !== "0x0" && chainId;
 
   return (
     <>
@@ -33,6 +37,18 @@ export const DashboardNavbar = (props) => {
             </Typography>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
+          {hasAccess && (
+            <>
+              <Button
+                sx={{ textTransform: "capitalize", mr: "1em" }}
+                color="error"
+                variant="outlined"
+                onClick={() => setTokenAddress("")}
+              >
+                <ResetIcon />
+              </Button>
+            </>
+          )}
 
           {(!user?.connected || !user?.UDName) && (
             <Button
@@ -56,8 +72,7 @@ export const DashboardNavbar = (props) => {
                     }}
                   >
                     Connect Wallet
-                  </Typography>{" "}
-                  <AccountBalanceWallet />
+                  </Typography>
                 </Typography>
               ) : (
                 user?.UDName || user?.address
@@ -86,8 +101,7 @@ export const DashboardNavbar = (props) => {
                     }}
                   >
                     Connect with Unstoppable
-                  </Typography>{" "}
-                  <AccountBalanceWalletSharp />
+                  </Typography>
                 </Typography>
               ) : (
                 user?.UDName
