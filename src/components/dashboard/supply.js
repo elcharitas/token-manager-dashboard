@@ -17,7 +17,7 @@ export const CirculatingSupply = (props) => {
     method: "totalSupply",
     address: tokenAddress,
     chainId,
-    logger: (e) => snackbar(e.message),
+    logger: (e) => snackbar.error(e.message),
     skip: tokenAddress === "0x0",
   });
   const { result: balance } = useToken({
@@ -25,14 +25,14 @@ export const CirculatingSupply = (props) => {
     args: [authWallet?.hash && parseAddress(authWallet?.hash)],
     address: tokenAddress,
     chainId,
-    logger: (e) => snackbar(e.message),
+    logger: (e) => snackbar.error(e.message),
     skip: tokenAddress === "0x0" || !authWallet?.hash,
   });
   const { result: symbol } = useToken({
     method: "symbol",
     address: tokenAddress,
     chainId,
-    logger: (e) => snackbar(e.message),
+    logger: (e) => snackbar.error(e.message),
     skip: tokenAddress === "0x0",
   });
 

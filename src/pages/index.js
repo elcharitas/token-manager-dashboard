@@ -56,7 +56,7 @@ const Dashboard = () => {
         localStorage.setItem("chainId", chainId);
         setTitle("Overview");
         snackbar.success("Dashboard access successful");
-      } else snackbar.error("Contract Address is required");
+      } else snackbar.error("Token smart contract address is required");
     } else {
       snackbar.error("Wallet not connected");
     }

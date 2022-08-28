@@ -15,7 +15,7 @@ export const TokenPortion = (props) => {
     method: "totalSupply",
     address: tokenAddress,
     chainId,
-    logger: (e) => snackbar(e.message),
+    logger: (e) => snackbar.error(e.message),
     skip: !tokenAddress || tokenAddress === "0x0",
   });
   const { result: balance } = useToken({
@@ -23,7 +23,7 @@ export const TokenPortion = (props) => {
     args: [authWallet?.hash && parseAddress(authWallet?.hash)],
     address: tokenAddress,
     chainId,
-    logger: (e) => snackbar(e.message),
+    logger: (e) => snackbar.error(e.message),
     skip: tokenAddress === "0x0" || !authWallet?.hash,
   });
 

@@ -13,14 +13,14 @@ export const TotalSupply = (props) => {
     method: "totalSupply",
     address: tokenAddress,
     chainId,
-    logger: (e) => snackbar(e.message),
+    logger: (e) => snackbar.error(e.message),
     skip: tokenAddress === "0x0",
   });
   const { result: symbol } = useToken({
     method: "symbol",
     address: tokenAddress,
     chainId,
-    logger: (e) => snackbar(e.message),
+    logger: (e) => snackbar.error(e.message),
     skip: tokenAddress === "0x0",
   });
 

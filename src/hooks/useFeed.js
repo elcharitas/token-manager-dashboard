@@ -12,7 +12,7 @@ export const useTokenFeed = () => {
     method: "latestRoundData",
     address: feed,
     chainId,
-    logger: (e) => snackbar(e.message),
+    logger: (e) => snackbar.error(e.message),
     skip: !feed,
   });
 
