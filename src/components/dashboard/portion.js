@@ -38,10 +38,8 @@ export const TokenPortion = (props) => {
               </Typography>
               <Typography color="error" variant="h5">
                 {(
-                  (totalSupply &&
-                    balance &&
-                    (100 * formatBigNumber(balance)) / formatBigNumber(totalSupply)) ||
-                  0
+                  (100 * formatBigNumber(balance || 0)) /
+                  formatBigNumber(totalSupply || 0)
                 ).toFixed(2)}
                 %
               </Typography>

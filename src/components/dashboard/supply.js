@@ -34,8 +34,7 @@ export const CirculatingSupply = (props) => {
     skip: tokenAddress === "0x0",
   });
 
-  const tokenBalance =
-    totalSupply && balance ? formatBigNumber(totalSupply) - formatBigNumber(balance) : 0;
+  const tokenBalance = formatBigNumber(totalSupply || 0) - formatBigNumber(balance || 0);
 
   return (
     symbol && (
