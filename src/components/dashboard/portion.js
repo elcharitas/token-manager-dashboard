@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Avatar, Card, CardContent, Grid, Typography, Tooltip } from "@mui/material";
 import snackbar from "react-hot-toast";
 import InsertChartIcon from "@mui/icons-material/InsertChartOutlined";
 import { useApp } from "src/hooks/useApp";
@@ -47,15 +47,17 @@ export const TokenPortion = (props) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar
-              sx={{
-                backgroundColor: "warning.main",
-                height: 56,
-                width: 56,
-              }}
-            >
-              <InsertChartIcon />
-            </Avatar>
+            <Tooltip title="Percentage ratio of connected wallet balance to token supply">
+              <Avatar
+                sx={{
+                  backgroundColor: "warning.main",
+                  height: 56,
+                  width: 56,
+                }}
+              >
+                <InsertChartIcon />
+              </Avatar>
+            </Tooltip>
           </Grid>
         </Grid>
       </CardContent>

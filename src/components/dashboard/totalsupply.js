@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Avatar, Tooltip, Card, CardContent, Grid, Typography } from "@mui/material";
 import snackbar from "react-hot-toast";
 import { CountertopsOutlined } from "@mui/icons-material";
 import { useApp } from "src/hooks/useApp";
@@ -28,22 +28,24 @@ export const TotalSupply = (props) => {
         <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="overline">
-              Total Supply:
+              Max Total Supply:
             </Typography>
             <Typography color="textPrimary" variant="h5">
               {totalSupply && parseCurrency(Number(formatBigNumber(totalSupply)), symbol ?? "")}
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar
-              sx={{
-                backgroundColor: "success.main",
-                height: 56,
-                width: 56,
-              }}
-            >
-              <CountertopsOutlined />
-            </Avatar>
+            <Tooltip title={`Maximum total supply of ${symbol}`}>
+              <Avatar
+                sx={{
+                  backgroundColor: "success.main",
+                  height: 56,
+                  width: 56,
+                }}
+              >
+                <CountertopsOutlined />
+              </Avatar>
+            </Tooltip>
           </Grid>
         </Grid>
       </CardContent>
