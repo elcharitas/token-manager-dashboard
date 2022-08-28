@@ -9,7 +9,7 @@ export const TokenPortion = (props) => {
   const {
     tokenAddress,
     chainId,
-    accounts: [user],
+    accounts: [authWallet],
   } = useApp();
   const { result: totalSupply } = useToken({
     method: "totalSupply",
@@ -20,47 +20,49 @@ export const TokenPortion = (props) => {
   });
   const { result: balance } = useToken({
     method: "balanceOf",
-    args: [user?.hash && parseAddress(user?.hash)],
+    args: [authWallet?.hash && parseAddress(authWallet?.hash)],
     address: tokenAddress,
     chainId,
     logger: (e) => snackbar(e.message),
-    skip: tokenAddress === "0x0" || !user?.hash,
+    skip: tokenAddress === "0x0" || !authWallet?.hash,
   });
 
   return (
-    <Card sx={{ height: "100%" }} {...props}>
-      <CardContent>
-        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-          <Grid item>
-            <Typography color="textSecondary" gutterBottom variant="overline">
-              Wallet / Supply:
-            </Typography>
-            <Typography color="error" variant="h5">
-              {(
-                (totalSupply &&
-                  balance &&
-                  (100 * Number(formatBigNumber(balance))) /
-                    Number(formatBigNumber(totalSupply))) ||
-                0
-              ).toFixed(2)}
-              %
-            </Typography>
+    balance !== null && (
+      <Card sx={{ height: "100%" }} {...props}>
+        <CardContent>
+          <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+            <Grid item>
+              <Typography color="textSecondary" gutterBottom variant="overline">
+                Wallet / Supply:
+              </Typography>
+              <Typography color="error" variant="h5">
+                {(
+                  (totalSupply &&
+                    balance &&
+                    (100 * Number(formatBigNumber(balance))) /
+                      Number(formatBigNumber(totalSupply))) ||
+                  0
+                ).toFixed(2)}
+                %
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Tooltip title="Percentage ratio of connected wallet balance to token supply">
+                <Avatar
+                  sx={{
+                    backgroundColor: "warning.main",
+                    height: 56,
+                    width: 56,
+                  }}
+                >
+                  <InsertChartIcon />
+                </Avatar>
+              </Tooltip>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Tooltip title="Percentage ratio of connected wallet balance to token supply">
-              <Avatar
-                sx={{
-                  backgroundColor: "warning.main",
-                  height: 56,
-                  width: 56,
-                }}
-              >
-                <InsertChartIcon />
-              </Avatar>
-            </Tooltip>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    )
   );
 };

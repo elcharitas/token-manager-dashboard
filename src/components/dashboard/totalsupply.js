@@ -23,32 +23,34 @@ export const TotalSupply = (props) => {
   });
 
   return (
-    <Card {...props}>
-      <CardContent>
-        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-          <Grid item>
-            <Typography color="textSecondary" gutterBottom variant="overline">
-              Max Total Supply:
-            </Typography>
-            <Typography color="textPrimary" variant="h5">
-              {totalSupply && parseCurrency(Number(formatBigNumber(totalSupply)), symbol ?? "")}
-            </Typography>
+    symbol && (
+      <Card {...props}>
+        <CardContent>
+          <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+            <Grid item>
+              <Typography color="textSecondary" gutterBottom variant="overline">
+                Max Total Supply:
+              </Typography>
+              <Typography color="textPrimary" variant="h5">
+                {totalSupply && parseCurrency(Number(formatBigNumber(totalSupply)), symbol ?? "")}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Tooltip title={`Maximum total supply of ${symbol}`}>
+                <Avatar
+                  sx={{
+                    backgroundColor: "success.main",
+                    height: 56,
+                    width: 56,
+                  }}
+                >
+                  <CountertopsOutlined />
+                </Avatar>
+              </Tooltip>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Tooltip title={`Maximum total supply of ${symbol}`}>
-              <Avatar
-                sx={{
-                  backgroundColor: "success.main",
-                  height: 56,
-                  width: 56,
-                }}
-              >
-                <CountertopsOutlined />
-              </Avatar>
-            </Tooltip>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    )
   );
 };

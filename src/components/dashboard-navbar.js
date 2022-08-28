@@ -15,10 +15,10 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 
 export const DashboardNavbar = (props) => {
   const { tokenAddress, chainId, setTokenAddress } = useApp();
-  const [[user], connectWallet, disconnectWallet, connectUDWallet, disconnectUDWallet] =
+  const [[authWallet], connectWallet, disconnectWallet, connectUDWallet, disconnectUDWallet] =
     useWallet();
 
-  const hasAccess = user?.connected && tokenAddress && tokenAddress !== "0x0" && chainId;
+  const hasAccess = authWallet?.connected && tokenAddress && tokenAddress !== "0x0" && chainId;
 
   return (
     <>
@@ -50,19 +50,21 @@ export const DashboardNavbar = (props) => {
             </Tooltip>
           )}
 
-          {(!user?.connected || !user?.UDName) && (
+          {(!authWallet?.connected || !authWallet?.UDName) && (
             <Tooltip
               title={
-                !user?.connected ? "Connect Non-Custodial Wallet" : `Disconnect ${user?.address}`
+                !authWallet?.connected
+                  ? "Connect Non-Custodial Wallet"
+                  : `Disconnect ${authWallet?.address}`
               }
             >
               <Button
                 sx={{ textTransform: "capitalize" }}
                 color="warning"
                 variant="outlined"
-                onClick={!user?.connected ? connectWallet : disconnectWallet}
+                onClick={!authWallet?.connected ? connectWallet : disconnectWallet}
               >
-                {!user?.connected ? (
+                {!authWallet?.connected ? (
                   <Typography
                     as="span"
                     sx={{
@@ -80,22 +82,26 @@ export const DashboardNavbar = (props) => {
                     </Typography>
                   </Typography>
                 ) : (
-                  user?.UDName || user?.address
+                  authWallet?.UDName || authWallet?.address
                 )}
               </Button>
             </Tooltip>
           )}
-          {(!user?.connected || user?.UDName) && (
+          {(!authWallet?.connected || authWallet?.UDName) && (
             <Tooltip
-              title={!user?.connected ? "Connect with Unstoppable" : `Disconnect ${user?.UDName}`}
+              title={
+                !authWallet?.connected
+                  ? "Connect with Unstoppable"
+                  : `Disconnect ${authWallet?.UDName}`
+              }
             >
               <Button
                 sx={{ textTransform: "capitalize", marginLeft: "10px" }}
                 color="primary"
                 variant="outlined"
-                onClick={!user?.connected ? connectUDWallet : disconnectUDWallet}
+                onClick={!authWallet?.connected ? connectUDWallet : disconnectUDWallet}
               >
-                {!user?.connected ? (
+                {!authWallet?.connected ? (
                   <Typography
                     as="span"
                     sx={{
@@ -113,7 +119,7 @@ export const DashboardNavbar = (props) => {
                     </Typography>
                   </Typography>
                 ) : (
-                  user?.UDName
+                  authWallet?.UDName
                 )}
               </Button>
             </Tooltip>
@@ -125,7 +131,7 @@ export const DashboardNavbar = (props) => {
               ml: 1,
               border: "0.7px solid",
             }}
-            src={getGravatar(user?.address || "0x0")}
+            src={getGravatar(authWallet?.address || "0x0")}
           >
             <SearchIcon fontSize="small" />
           </Avatar>

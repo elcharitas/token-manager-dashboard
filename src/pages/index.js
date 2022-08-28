@@ -22,7 +22,7 @@ const Dashboard = () => {
     value,
   }));
 
-  const [[user], connectWallet] = useWallet();
+  const [[authWallet], connectWallet] = useWallet();
   const { setTitle, setChainId, tokenAddress, chainId, setTokenAddress } = useApp();
 
   const { mutate } = useToken({
@@ -43,7 +43,7 @@ const Dashboard = () => {
   const [apvAddress, setApvAddress] = useState("");
 
   const handleLogin = async () => {
-    if (user?.hash) {
+    if (authWallet?.hash) {
       if (address) {
         setTokenAddress(address);
         localStorage.setItem("tokenAddress", address);
@@ -89,7 +89,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    if (!user?.hash) {
+    if (!authWallet?.hash) {
       setTitle("Login");
       setChainId(localStorage.getItem("chainId") ?? "");
       setAddress(
@@ -97,7 +97,7 @@ const Dashboard = () => {
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user?.hash]);
+  }, [authWallet?.hash]);
 
   return (
     <>
@@ -110,7 +110,7 @@ const Dashboard = () => {
       >
         <Container maxWidth={false}>
           <Grid container spacing={3}>
-            {user?.hash && tokenAddress && tokenAddress !== "0x0" ? (
+            {authWallet?.hash && tokenAddress && tokenAddress !== "0x0" ? (
               <>
                 <Grid item lg={3} sm={6} xl={3} xs={12}>
                   <Budget />
@@ -216,7 +216,7 @@ const Dashboard = () => {
                         color="warning"
                         sx={{ color: "white" }}
                         onClick={handleLogin}
-                        disabled={!chainId && !user?.hash}
+                        disabled={!chainId && !authWallet?.hash}
                       >
                         Access Manager &rarr;
                       </Button>
