@@ -9,15 +9,15 @@ export const Budget = (props) => {
   const {
     tokenAddress,
     chainId,
-    accounts: [user],
+    accounts: [authWallet],
   } = useApp();
   const { result: balance } = useToken({
     method: "balanceOf",
-    args: [user?.hash && parseAddress(user?.hash)],
+    args: [authWallet?.hash && parseAddress(authWallet?.hash)],
     address: tokenAddress,
     chainId,
     logger: (e) => snackbar(e.message),
-    skip: tokenAddress === "0x0" || !user?.hash,
+    skip: tokenAddress === "0x0" || !authWallet?.hash,
   });
   const { result: symbol } = useToken({
     method: "symbol",
