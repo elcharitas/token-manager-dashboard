@@ -6,7 +6,7 @@ export const SelectField = ({ sx, label, color, options = [], ...props }) => {
       <FormControl fullWidth>
         <InputLabel color={color}>{label}</InputLabel>
         <Select label={label} color={color} {...props}>
-          {options.map(({ value, label }, index) => (
+          {[{ value: "" }, ...options].map(({ value, label }, index) => (
             <MenuItem key={index} color={color} value={value}>
               {label || value}
             </MenuItem>

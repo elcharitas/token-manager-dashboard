@@ -204,8 +204,9 @@ const Dashboard = () => {
                       <SelectField
                         label="Token Address"
                         color="warning"
+                        value={address}
                         options={addresses}
-                        onChange={(e) => setAddress(addresses[e.target.value])}
+                        onChange={(e) => setAddress(e.target.value)}
                       />
                     ) : (
                       <TextField
@@ -231,7 +232,7 @@ const Dashboard = () => {
                     <Box sx={{ display: "flex", alignItems: "center", marginTop: 1 }}>
                       <Checkbox
                         color="warning"
-                        value={showSupported}
+                        checked={showSupported}
                         onChange={toggleShowSupported}
                       />{" "}
                       <Typography>
