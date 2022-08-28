@@ -1,5 +1,5 @@
 import snackbar from "react-hot-toast";
-import { Avatar, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Avatar, Card, CardContent, Grid, Typography, Tooltip } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { useApp } from "src/hooks/useApp";
 import { useToken } from "src/hooks/useToken";
@@ -40,7 +40,7 @@ export const CirculatingSupply = (props) => {
         <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="overline">
-              Circulating Supply:
+              Differed Supply:
             </Typography>
             <Typography color="textPrimary" variant="h5">
               {parseCurrency(
@@ -52,15 +52,17 @@ export const CirculatingSupply = (props) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar
-              sx={{
-                backgroundColor: "primary.main",
-                height: 56,
-                width: 56,
-              }}
-            >
-              <AttachMoneyIcon />
-            </Avatar>
+            <Tooltip title={`How much of ${symbol} not found in wallet`}>
+              <Avatar
+                sx={{
+                  backgroundColor: "primary.main",
+                  height: 56,
+                  width: 56,
+                }}
+              >
+                <AttachMoneyIcon />
+              </Avatar>
+            </Tooltip>
           </Grid>
         </Grid>
       </CardContent>

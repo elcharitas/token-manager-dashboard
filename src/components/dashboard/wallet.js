@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardContent, Grid, Typography } from "@mui/material";
+import { Avatar, Card, CardContent, Grid, Typography, Tooltip } from "@mui/material";
 import snackbar from "react-hot-toast";
 import { AccountBalanceWallet } from "@mui/icons-material";
 import { formatBigNumber, parseAddress, parseCurrency } from "src/utils";
@@ -40,15 +40,17 @@ export const Budget = (props) => {
             </Typography>
           </Grid>
           <Grid item>
-            <Avatar
-              sx={{
-                backgroundColor: "error.main",
-                height: 56,
-                width: 56,
-              }}
-            >
-              <AccountBalanceWallet />
-            </Avatar>
+            <Tooltip title={`Amount of ${symbol} found in connected wallet`}>
+              <Avatar
+                sx={{
+                  backgroundColor: "error.main",
+                  height: 56,
+                  width: 56,
+                }}
+              >
+                <AccountBalanceWallet />
+              </Avatar>
+            </Tooltip>
           </Grid>
         </Grid>
       </CardContent>
