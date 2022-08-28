@@ -42,7 +42,7 @@ export const networks = {
  * @returns
  */
 const getRPCNode = (network) =>
-  `https://${networks[network].id}.infura.io/v3/${process.env.NEXT_PUBLIC_RPC_KEY}`;
+  `https://${networks[network]?.id || "mainnet"}.infura.io/v3/${process.env.NEXT_PUBLIC_RPC_KEY}`;
 
 export const web3Modal = (chainId, theme = "dark") => {
   return new Web3Modal({

@@ -19,6 +19,7 @@ const useToken = ({ method = "totalSupply", ...opts }) => {
         .catch(setError)
         .finally(() => setLoading(false));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opts.skip]);
 
   return { mutate, result, error };
