@@ -1,6 +1,15 @@
 import snackbar from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { Box, Checkbox, Container, Grid, TextField, Typography, Button } from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import { useApp } from "src/hooks/useApp";
 import { useWallet } from "src/hooks/useWallet";
 import { SelectField } from "src/components/select";
@@ -40,6 +49,8 @@ const Dashboard = () => {
   });
 
   const [address, setAddress] = useState("");
+  const [approving, setApproving] = useState(false);
+  const [transferring, setTransferring] = useState(false);
   const [showSupported, setShowSupported] = useState(true);
   const toggleShowSupported = () => setShowSupported((show) => !show);
 
@@ -63,6 +74,7 @@ const Dashboard = () => {
   };
 
   const transferToken = async () => {
+    setTransferring(true);
     await connectWallet()
       .then(() =>
         mutate("transfer", parseAddress(trfAddress), parseNumber(trfAmount))
@@ -75,10 +87,12 @@ const Dashboard = () => {
       )
       .catch(() => {
         snackbar.error("Some error occurred");
-      });
+      })
+      .finally(() => setTransferring(false));
   };
 
   const approveAddress = async () => {
+    setApproving(true);
     await connectWallet()
       .then(async () => {
         await mutate("approve", parseAddress(apvAddress), parseNumber(apvAmount))
@@ -91,7 +105,8 @@ const Dashboard = () => {
       })
       .catch(() => {
         snackbar.error("Some error occurred");
-      });
+      })
+      .finally(() => setApproving(false));
   };
 
   useEffect(() => {
@@ -156,7 +171,15 @@ const Dashboard = () => {
                         color="warning"
                         sx={{ color: "white" }}
                         onClick={transferToken}
+                        disabled={transferring}
                       >
+                        {transferring && (
+                          <CircularProgress
+                            color="warning"
+                            size="1.5rem"
+                            sx={{ marginRight: "1rem" }}
+                          />
+                        )}{" "}
                         Transfer Token
                       </Button>
                     </Box>
@@ -188,7 +211,15 @@ const Dashboard = () => {
                         color="warning"
                         sx={{ color: "white" }}
                         onClick={approveAddress}
+                        disabled={approving}
                       >
+                        {approving && (
+                          <CircularProgress
+                            color="warning"
+                            size="1.5rem"
+                            sx={{ marginRight: "1rem" }}
+                          />
+                        )}{" "}
                         Approve Address
                       </Button>
                     </Box>

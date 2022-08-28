@@ -22,7 +22,7 @@ const useToken = ({ method = "totalSupply", ...opts }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [opts.skip]);
 
-  return { mutate, result, error };
+  return { mutate, loading, result, error };
 };
 
 export { useToken };
