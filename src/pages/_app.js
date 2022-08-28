@@ -29,7 +29,16 @@ const App = (props) => {
           <CssBaseline />
           {getLayout(<Component {...pageProps} />)}
         </ThemeProvider>
-        <Toaster position="bottom-center" reverseOrder />
+        <Toaster
+          containerStyle={{
+            height: "100px",
+            bottom: "30px",
+            top: undefined,
+            overflowY: "scroll",
+          }}
+          position="bottom-right"
+          reverseOrder
+        />
       </AppProvider>
     </>
   );
