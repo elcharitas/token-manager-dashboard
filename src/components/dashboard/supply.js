@@ -34,6 +34,9 @@ export const CirculatingSupply = (props) => {
     skip: tokenAddress === "0x0",
   });
 
+  const tokenBalance =
+    totalSupply && balance ? formatBigNumber(totalSupply) - formatBigNumber(balance) : 0;
+
   return (
     symbol && (
       <Card {...props}>
@@ -44,12 +47,7 @@ export const CirculatingSupply = (props) => {
                 Differed Supply:
               </Typography>
               <Typography color="textPrimary" variant="h5">
-                {parseCurrency(
-                  totalSupply &&
-                    balance &&
-                    Number(formatBigNumber(totalSupply)) - Number(formatBigNumber(balance)),
-                  symbol ?? ""
-                )}
+                {parseCurrency(tokenBalance, symbol ?? "")}
               </Typography>
             </Grid>
             <Grid item>

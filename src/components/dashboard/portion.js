@@ -40,8 +40,7 @@ export const TokenPortion = (props) => {
                 {(
                   (totalSupply &&
                     balance &&
-                    (100 * Number(formatBigNumber(balance))) /
-                      Number(formatBigNumber(totalSupply))) ||
+                    (100 * formatBigNumber(balance)) / formatBigNumber(totalSupply)) ||
                   0
                 ).toFixed(2)}
                 %

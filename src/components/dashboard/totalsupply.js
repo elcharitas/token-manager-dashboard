@@ -32,7 +32,7 @@ export const TotalSupply = (props) => {
                 Max Total Supply:
               </Typography>
               <Typography color="textPrimary" variant="h5">
-                {totalSupply && parseCurrency(Number(formatBigNumber(totalSupply)), symbol ?? "")}
+                {totalSupply && parseCurrency(formatBigNumber(totalSupply), symbol ?? "")}
               </Typography>
             </Grid>
             <Grid item>

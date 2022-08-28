@@ -37,7 +37,7 @@ export const Budget = (props) => {
                 Wallet Balance:
               </Typography>
               <Typography color="textPrimary" variant="h5">
-                {parseCurrency(Number(balance && formatBigNumber(balance)), symbol ?? "")}
+                {parseCurrency(formatBigNumber(balance || 0), symbol ?? "")}
               </Typography>
             </Grid>
             <Grid item>
