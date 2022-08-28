@@ -1,4 +1,7 @@
-const dataFeeds = {
+/**
+ * ChainLink Aggregation
+ */
+export const dataFeeds = {
   1: {
     // 1INCH
     "0x111111111117dC0aa78b770fA6A738034120C302": {
@@ -139,4 +142,18 @@ const dataFeeds = {
       feed: "0x572dDec9087154dC5dfBB1546Bb62713147e0Ab0",
     },
   },
+};
+
+/**
+ * Gets a feed source
+ *
+ * @param {string} tokenAddress
+ * @param {keyof dataFeeds} chainId
+ * @returns {{ feed: string; name: string} | undefined}
+ */
+export const getSourceByToken = (tokenAddress, chainId) => {
+  const sources = dataFeeds[chainId];
+  if (sources && tokenAddress in sources) {
+    return sources[tokenAddress];
+  }
 };
