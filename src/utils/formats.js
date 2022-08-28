@@ -16,6 +16,6 @@ export const parseAbi = (abi) =>
   JSON.parse(new utils.Interface(abi).format(utils.FormatTypes.json));
 
 export const formatBigNumber = (bigNum, unit = "ether") =>
-  Number(utils.formatUnits(String(bigNum), unit));
+  Number(utils.formatUnits(String(bigNum || "0x0"), unit));
 
 export const formatBytes = (bytes) => utils.toUtf8String(bytes);
