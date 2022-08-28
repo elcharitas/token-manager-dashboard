@@ -36,7 +36,7 @@ export const TotalSupply = (props) => {
                 Max Total Supply:
               </Typography>
               <Typography color="textPrimary" variant="h5">
-                {parseCurrency(totalSupply, symbol ?? "")}
+                {parseCurrency(totalSupply, symbol)}
                 {priceUSD ? ` / ${parseCurrency(priceUSD * totalSupply, "USD")}` : ""}
               </Typography>
             </Grid>

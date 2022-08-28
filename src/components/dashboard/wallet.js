@@ -41,7 +41,7 @@ export const Budget = (props) => {
                 Wallet Balance:
               </Typography>
               <Typography color="textPrimary" variant="h5">
-                {parseCurrency(balance, symbol ?? "")}
+                {parseCurrency(balance, symbol)}
                 {priceUSD ? ` / ${parseCurrency(priceUSD * balance, "USD")}` : ""}
               </Typography>
             </Grid>

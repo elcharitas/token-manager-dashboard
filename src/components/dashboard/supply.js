@@ -48,7 +48,7 @@ export const CirculatingSupply = (props) => {
                 Differed Supply:
               </Typography>
               <Typography color="textPrimary" variant="h5">
-                {parseCurrency(differedSupply, symbol ?? "")}{" "}
+                {parseCurrency(differedSupply, symbol)}{" "}
                 {priceUSD ? ` / ${parseCurrency(priceUSD * differedSupply, "USD")}` : ""}
               </Typography>
             </Grid>
