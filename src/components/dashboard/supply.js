@@ -35,37 +35,39 @@ export const CirculatingSupply = (props) => {
   });
 
   return (
-    <Card {...props}>
-      <CardContent>
-        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-          <Grid item>
-            <Typography color="textSecondary" gutterBottom variant="overline">
-              Differed Supply:
-            </Typography>
-            <Typography color="textPrimary" variant="h5">
-              {parseCurrency(
-                totalSupply &&
-                  balance &&
-                  Number(formatBigNumber(totalSupply)) - Number(formatBigNumber(balance)),
-                symbol ?? ""
-              )}
-            </Typography>
+    symbol && (
+      <Card {...props}>
+        <CardContent>
+          <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+            <Grid item>
+              <Typography color="textSecondary" gutterBottom variant="overline">
+                Differed Supply:
+              </Typography>
+              <Typography color="textPrimary" variant="h5">
+                {parseCurrency(
+                  totalSupply &&
+                    balance &&
+                    Number(formatBigNumber(totalSupply)) - Number(formatBigNumber(balance)),
+                  symbol ?? ""
+                )}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Tooltip title={`How much of ${symbol} not found in wallet`}>
+                <Avatar
+                  sx={{
+                    backgroundColor: "primary.main",
+                    height: 56,
+                    width: 56,
+                  }}
+                >
+                  <AttachMoneyIcon />
+                </Avatar>
+              </Tooltip>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Tooltip title={`How much of ${symbol} not found in wallet`}>
-              <Avatar
-                sx={{
-                  backgroundColor: "primary.main",
-                  height: 56,
-                  width: 56,
-                }}
-              >
-                <AttachMoneyIcon />
-              </Avatar>
-            </Tooltip>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    )
   );
 };

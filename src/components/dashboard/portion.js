@@ -28,39 +28,41 @@ export const TokenPortion = (props) => {
   });
 
   return (
-    <Card sx={{ height: "100%" }} {...props}>
-      <CardContent>
-        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-          <Grid item>
-            <Typography color="textSecondary" gutterBottom variant="overline">
-              Wallet / Supply:
-            </Typography>
-            <Typography color="error" variant="h5">
-              {(
-                (totalSupply &&
-                  balance &&
-                  (100 * Number(formatBigNumber(balance))) /
-                    Number(formatBigNumber(totalSupply))) ||
-                0
-              ).toFixed(2)}
-              %
-            </Typography>
+    balance !== null && (
+      <Card sx={{ height: "100%" }} {...props}>
+        <CardContent>
+          <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+            <Grid item>
+              <Typography color="textSecondary" gutterBottom variant="overline">
+                Wallet / Supply:
+              </Typography>
+              <Typography color="error" variant="h5">
+                {(
+                  (totalSupply &&
+                    balance &&
+                    (100 * Number(formatBigNumber(balance))) /
+                      Number(formatBigNumber(totalSupply))) ||
+                  0
+                ).toFixed(2)}
+                %
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Tooltip title="Percentage ratio of connected wallet balance to token supply">
+                <Avatar
+                  sx={{
+                    backgroundColor: "warning.main",
+                    height: 56,
+                    width: 56,
+                  }}
+                >
+                  <InsertChartIcon />
+                </Avatar>
+              </Tooltip>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Tooltip title="Percentage ratio of connected wallet balance to token supply">
-              <Avatar
-                sx={{
-                  backgroundColor: "warning.main",
-                  height: 56,
-                  width: 56,
-                }}
-              >
-                <InsertChartIcon />
-              </Avatar>
-            </Tooltip>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    )
   );
 };

@@ -28,32 +28,34 @@ export const Budget = (props) => {
   });
 
   return (
-    <Card sx={{ height: "100%" }} {...props}>
-      <CardContent>
-        <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
-          <Grid item>
-            <Typography color="textSecondary" gutterBottom variant="overline">
-              Wallet Balance:
-            </Typography>
-            <Typography color="textPrimary" variant="h5">
-              {parseCurrency(Number(balance && formatBigNumber(balance)), symbol ?? "")}
-            </Typography>
+    symbol && (
+      <Card sx={{ height: "100%" }} {...props}>
+        <CardContent>
+          <Grid container spacing={3} sx={{ justifyContent: "space-between" }}>
+            <Grid item>
+              <Typography color="textSecondary" gutterBottom variant="overline">
+                Wallet Balance:
+              </Typography>
+              <Typography color="textPrimary" variant="h5">
+                {parseCurrency(Number(balance && formatBigNumber(balance)), symbol ?? "")}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Tooltip title={`Amount of ${symbol} found in connected wallet`}>
+                <Avatar
+                  sx={{
+                    backgroundColor: "error.main",
+                    height: 56,
+                    width: 56,
+                  }}
+                >
+                  <AccountBalanceWallet />
+                </Avatar>
+              </Tooltip>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Tooltip title={`Amount of ${symbol} found in connected wallet`}>
-              <Avatar
-                sx={{
-                  backgroundColor: "error.main",
-                  height: 56,
-                  width: 56,
-                }}
-              >
-                <AccountBalanceWallet />
-              </Avatar>
-            </Tooltip>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    )
   );
 };
