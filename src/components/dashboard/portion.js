@@ -37,14 +37,7 @@ export const TokenPortion = (props) => {
                 Wallet / Supply:
               </Typography>
               <Typography color="error" variant="h5">
-                {(
-                  (totalSupply &&
-                    balance &&
-                    (100 * Number(formatBigNumber(balance))) /
-                      Number(formatBigNumber(totalSupply))) ||
-                  0
-                ).toFixed(2)}
-                %
+                {((100 * formatBigNumber(balance)) / formatBigNumber(totalSupply)).toFixed(2)}%
               </Typography>
             </Grid>
             <Grid item>

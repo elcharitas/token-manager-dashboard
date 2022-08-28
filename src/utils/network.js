@@ -92,7 +92,10 @@ export const provider = {
           return reject({
             message: "No available wallet instance. Try using a dApp browser",
           });
-        if (instance.chainId && formatBigNumber(instance.chainId, "wei") !== String(chainId))
+        if (
+          instance.chainId &&
+          formatBigNumber(instance.chainId, "wei").toString() !== String(chainId)
+        )
           return reject({ message: "Please switch to the required network" });
         return instance.chainId && new ethers.providers.Web3Provider(instance);
       })

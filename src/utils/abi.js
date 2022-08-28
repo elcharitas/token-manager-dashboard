@@ -10,3 +10,7 @@ export const erc20Abi = [
   "function approve(address spender, uint256 amount) public",
   "function transfer(address to, uint256 amount) public",
 ];
+
+export const feedsAbi = [
+  "function latestRoundData() public view returns ( uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)",
+];

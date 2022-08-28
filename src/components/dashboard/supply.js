@@ -3,6 +3,7 @@ import { Avatar, Card, CardContent, Grid, Typography, Tooltip } from "@mui/mater
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { useApp } from "src/hooks/useApp";
 import { useToken } from "src/hooks/useToken";
+import { useTokenFeed } from "src/hooks/useFeed";
 import { formatBigNumber, parseAddress, parseCurrency } from "src/utils";
 
 export const CirculatingSupply = (props) => {
@@ -11,6 +12,7 @@ export const CirculatingSupply = (props) => {
     chainId,
     accounts: [authWallet],
   } = useApp();
+  const { priceUSD } = useTokenFeed();
   const { result: totalSupply } = useToken({
     method: "totalSupply",
     address: tokenAddress,
@@ -34,6 +36,8 @@ export const CirculatingSupply = (props) => {
     skip: tokenAddress === "0x0",
   });
 
+  const differedSupply = formatBigNumber(totalSupply) - formatBigNumber(balance);
+
   return (
     symbol && (
       <Card {...props}>
@@ -44,12 +48,8 @@ export const CirculatingSupply = (props) => {
                 Differed Supply:
               </Typography>
               <Typography color="textPrimary" variant="h5">
-                {parseCurrency(
-                  totalSupply &&
-                    balance &&
-                    Number(formatBigNumber(totalSupply)) - Number(formatBigNumber(balance)),
-                  symbol ?? ""
-                )}
+                {parseCurrency(differedSupply, symbol)}{" "}
+                {priceUSD ? ` / ${parseCurrency(priceUSD * differedSupply, "USD")}` : ""}
               </Typography>
             </Grid>
             <Grid item>

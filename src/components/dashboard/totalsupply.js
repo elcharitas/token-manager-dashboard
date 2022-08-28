@@ -3,11 +3,13 @@ import snackbar from "react-hot-toast";
 import { CountertopsOutlined } from "@mui/icons-material";
 import { useApp } from "src/hooks/useApp";
 import { useToken } from "src/hooks/useToken";
+import { useTokenFeed } from "src/hooks/useFeed";
 import { formatBigNumber, parseCurrency } from "src/utils";
 
 export const TotalSupply = (props) => {
   const { tokenAddress, chainId } = useApp();
-  const { result: totalSupply } = useToken({
+  const { priceUSD } = useTokenFeed();
+  const { result: supplyData } = useToken({
     method: "totalSupply",
     address: tokenAddress,
     chainId,
@@ -22,6 +24,8 @@ export const TotalSupply = (props) => {
     skip: tokenAddress === "0x0",
   });
 
+  const totalSupply = formatBigNumber(supplyData);
+
   return (
     symbol && (
       <Card {...props}>
@@ -32,7 +36,8 @@ export const TotalSupply = (props) => {
                 Max Total Supply:
               </Typography>
               <Typography color="textPrimary" variant="h5">
-                {totalSupply && parseCurrency(Number(formatBigNumber(totalSupply)), symbol ?? "")}
+                {parseCurrency(totalSupply, symbol)}
+                {priceUSD ? ` / ${parseCurrency(priceUSD * totalSupply, "USD")}` : ""}
               </Typography>
             </Grid>
             <Grid item>
