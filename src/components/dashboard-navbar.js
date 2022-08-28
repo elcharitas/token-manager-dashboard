@@ -3,7 +3,6 @@ import Image from "next/image";
 import styled from "@emotion/styled";
 import { AppBar, Button, Avatar, Box, Typography, Toolbar, Tooltip } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { AccountBalanceWallet, AccountBalanceWalletSharp } from "@mui/icons-material";
 import { getGravatar } from "src/utils";
 import { useWallet } from "src/hooks/useWallet";
 
@@ -56,8 +55,7 @@ export const DashboardNavbar = (props) => {
                     }}
                   >
                     Connect Wallet
-                  </Typography>{" "}
-                  <AccountBalanceWallet />
+                  </Typography>
                 </Typography>
               ) : (
                 user?.UDName || user?.address
@@ -86,8 +84,7 @@ export const DashboardNavbar = (props) => {
                     }}
                   >
                     Connect with Unstoppable
-                  </Typography>{" "}
-                  <AccountBalanceWalletSharp />
+                  </Typography>
                 </Typography>
               ) : (
                 user?.UDName
