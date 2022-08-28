@@ -96,7 +96,9 @@ export const provider = {
           instance.chainId &&
           formatBigNumber(instance.chainId, "wei").toString() !== String(chainId)
         )
-          return reject({ message: `Please switch to ${networks[chainId].name} network` });
+          return reject({
+            message: `Please switch to ${networks[chainId]?.name || "required"} network`,
+          });
         return instance.chainId && new ethers.providers.Web3Provider(instance);
       })
       .catch(reject);
