@@ -1,29 +1,33 @@
 import snackbar from "react-hot-toast";
 import { useEffect, useState } from "react";
-import { Box, Container, Grid } from "@mui/material";
-import { TextField } from "@mui/material";
-import { Button } from "@mui/material";
+import { Box, Checkbox, Container, Grid, TextField, Typography, Button } from "@mui/material";
+import { useApp } from "src/hooks/useApp";
+import { useWallet } from "src/hooks/useWallet";
+import { SelectField } from "src/components/select";
+import { Credit } from "src/components/credits";
+import { useToken } from "src/hooks/useToken";
+import { dataFeeds, networks, parseAddress, parseNumber } from "src/utils";
+
 import { Budget } from "../components/dashboard/wallet";
 import { TokenPortion } from "../components/dashboard/portion";
 import { TotalSupply } from "../components/dashboard/totalsupply";
 import { CirculatingSupply } from "../components/dashboard/supply";
 import { Column } from "../components/dashboard/column";
 import { DashboardLayout } from "../components/dashboard-layout";
-import { useApp } from "src/hooks/useApp";
-import { useWallet } from "src/hooks/useWallet";
-import { SelectField } from "src/components/select";
-import { Credit } from "src/components/credits";
-import { useToken } from "src/hooks/useToken";
-import { manager, networks, parseAddress, parseNumber } from "src/utils";
 
 const Dashboard = () => {
+  const [[authWallet], connectWallet] = useWallet();
+  const { setTitle, setChainId, tokenAddress, chainId, setTokenAddress } = useApp();
+
   const chains = Object.entries(networks).map(([value, nw]) => ({
     label: nw.name,
     value,
   }));
 
-  const [[authWallet], connectWallet] = useWallet();
-  const { setTitle, setChainId, tokenAddress, chainId, setTokenAddress } = useApp();
+  const addresses = Object.entries(dataFeeds[chainId] || {}).map(([value, { name }]) => ({
+    label: name,
+    value,
+  }));
 
   const { mutate } = useToken({
     address: tokenAddress,
@@ -36,6 +40,8 @@ const Dashboard = () => {
   });
 
   const [address, setAddress] = useState("");
+  const [showSupported, setShowSupported] = useState(true);
+  const toggleShowSupported = () => setShowSupported((show) => !show);
 
   const [trfAmount, setTrfAmount] = useState("");
   const [apvAmount, setApvAmount] = useState("");
@@ -194,23 +200,46 @@ const Dashboard = () => {
                 <Grid item lg={4} md={6} xs={12} />
                 <Grid item lg={4} md={6} xs={12}>
                   <Column title="Token Manager" sx={{ height: "100%" }}>
-                    <TextField
-                      variant="outlined"
-                      label="Token Address"
-                      color="warning"
-                      fullWidth
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                    />
+                    {showSupported ? (
+                      <SelectField
+                        label="Token Address"
+                        color="warning"
+                        options={addresses}
+                        onChange={(e) => setAddress(addresses[e.target.value])}
+                      />
+                    ) : (
+                      <TextField
+                        variant="outlined"
+                        label="Token Address"
+                        color="warning"
+                        fullWidth
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
+                    )}
                     <SelectField
                       label="Deployed Network"
                       options={chains}
                       color="warning"
                       sx={{ marginTop: 2 }}
                       value={chainId}
-                      onChange={(e) => setChainId(e.target.value)}
+                      onChange={(e) => {
+                        setAddress("");
+                        setChainId(e.target.value);
+                      }}
                     />
-                    <Box sx={{ display: "flex", justifyContent: "center", marginTop: 4 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", marginTop: 1 }}>
+                      <Checkbox
+                        color="warning"
+                        value={showSupported}
+                        onChange={toggleShowSupported}
+                      />{" "}
+                      <Typography>
+                        Show DataFeed Supported Tokens <em>(prices in USD)</em>
+                      </Typography>
+                    </Box>
+
+                    <Box sx={{ display: "flex", justifyContent: "center", marginTop: 1 }}>
                       <Button
                         variant="contained"
                         color="warning"
@@ -218,7 +247,7 @@ const Dashboard = () => {
                         onClick={handleLogin}
                         disabled={!chainId && !authWallet?.hash}
                       >
-                        Access Manager &rarr;
+                        Access Token Manager &rarr;
                       </Button>
                     </Box>
                   </Column>
