@@ -133,7 +133,7 @@ export const dataFeeds = {
     },
     // MATIC
     "0x0000000000000000000000000000000000001010": {
-      name: "BNB",
+      name: "MATIC",
       feed: "0xd0D5e3DB44DE05E9F294BB0a3bEEaF030DE24Ada",
     },
     // USDC
